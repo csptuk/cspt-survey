@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 const Color kAppBarBackgroundColor = Color(0xFFEED371);
 const Color kBodyBackgroundColor = Color(0xFFFBF0AB);
 const Color kSecondaryColor = Color(0xFFFCCD6C);
+const Color kLoadingLineColor = Color(0xFFEC2359);
 // const Color kActiveButtonColor = Color(0xFF831D1C);
 // const Color kActiveButtonColor = Color(0xFFEC2359);
 const Color kActiveButtonColor = Colors.black;

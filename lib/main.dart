@@ -1,18 +1,27 @@
-import 'package:csspt_app/home_screen.dart';
+import 'package:csspt_app/devotee_model.dart';
+import 'package:csspt_app/features/home/presentation/views/home_view.dart';
+import 'package:csspt_app/injection_container.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await initializeDependencies();
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(DevoteeModelAdapter());
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: "CSPT Survey",
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -33,7 +42,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: SafeArea(child: HomeScreen()),
+      home: SafeArea(child: HomeView()),
     );
   }
 }

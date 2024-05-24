@@ -16,13 +16,19 @@ class CustomCheckboxListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
-      title: Text(title, style: kLabelTextStyle,),
+      title: Text(
+        title,
+        style: kLabelTextStyle,
+      ),
       value: value,
       dense: true,
-      enableFeedback: true,
-      activeColor: kActiveButtonColor,
-      controlAffinity: ListTileControlAffinity.leading,
       onChanged: onChanged,
+      activeColor: kActiveButtonColor,
+      splashRadius: 20.0,
+      controlAffinity: ListTileControlAffinity.leading,
+      autofocus: true,
+      enableFeedback: true,
+      focusNode: FocusNode(),
     );
   }
 }

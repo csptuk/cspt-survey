@@ -30,7 +30,19 @@ class CustomRadioButton extends StatelessWidget {
             activeColor: kActiveButtonColor,
           ),
         ),
-        Text(label, style: kLabelTextStyle,),
+        GestureDetector(
+          onTap: () {
+            if (value != groupValue) {
+              onChanged(value);
+            } else {
+              onChanged(null);
+            }
+          },
+          child: Text(
+            label,
+            style: kLabelTextStyle,
+          ),
+        ),
       ],
     );
   }
