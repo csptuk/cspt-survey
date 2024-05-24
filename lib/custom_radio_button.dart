@@ -20,14 +20,17 @@ class CustomRadioButton extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Radio<String>(
-          value: value,
-          groupValue: groupValue,
-          toggleable: true,
-          onChanged: onChanged,
-          activeColor: kActiveRadioButtonColor,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Radio<String>(
+            value: value,
+            groupValue: groupValue,
+            toggleable: true,
+            onChanged: onChanged,
+            activeColor: kActiveButtonColor,
+          ),
         ),
-        Text(label),
+        Text(label, style: kLabelTextStyle,),
       ],
     );
   }
