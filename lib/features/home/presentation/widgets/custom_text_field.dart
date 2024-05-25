@@ -1,5 +1,6 @@
 import 'package:csspt_app/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
@@ -26,8 +27,9 @@ class CustomTextField extends StatelessWidget {
             focusNode.requestFocus();
           }
         } else {
-          onFocusChange(controller.text);
+          HapticFeedback.lightImpact();
           focusNode.nextFocus();
+          onFocusChange(controller.text);
         }
       },
       child: TextFormField(
@@ -39,6 +41,7 @@ class CustomTextField extends StatelessWidget {
         focusNode: focusNode,
         validator: validator,
         onTapOutside: (_) {
+          focusNode.unfocus();
           onFocusChange(controller.text);
         },
         showCursor: true,

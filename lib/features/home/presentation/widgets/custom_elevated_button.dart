@@ -1,5 +1,6 @@
 import 'package:csspt_app/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton(
@@ -31,7 +32,10 @@ class CustomElevatedButton extends StatelessWidget {
                   borderRadius: kBorderRadius,
                 ),
               ),
-              onPressed: onPressed,
+              onPressed: () {
+                HapticFeedback.mediumImpact();
+                onPressed();
+              },
               child: Text(
                 text,
                 style: kButtonTextStyle,

@@ -1,5 +1,6 @@
 import 'package:csspt_app/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomCheckboxListTile extends StatelessWidget {
   const CustomCheckboxListTile({
@@ -22,13 +23,16 @@ class CustomCheckboxListTile extends StatelessWidget {
       ),
       value: value,
       dense: true,
-      onChanged: onChanged,
+      onChanged: (value) {
+        HapticFeedback.lightImpact();
+        onChanged(value);
+      },
       activeColor: kActiveButtonColor,
       splashRadius: 20.0,
       controlAffinity: ListTileControlAffinity.leading,
       autofocus: true,
-      enableFeedback: true,
       focusNode: FocusNode(),
+      enableFeedback: false,
     );
   }
 }

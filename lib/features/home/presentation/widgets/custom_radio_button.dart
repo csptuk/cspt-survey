@@ -1,5 +1,6 @@
 import 'package:csspt_app/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomRadioButton extends StatelessWidget {
   const CustomRadioButton({
@@ -26,12 +27,16 @@ class CustomRadioButton extends StatelessWidget {
             value: value,
             groupValue: groupValue,
             toggleable: true,
-            onChanged: onChanged,
+            onChanged: (value) {
+              HapticFeedback.lightImpact();
+              onChanged(value);
+            },
             activeColor: kActiveButtonColor,
           ),
         ),
         GestureDetector(
           onTap: () {
+            HapticFeedback.lightImpact();
             if (value != groupValue) {
               onChanged(value);
             } else {

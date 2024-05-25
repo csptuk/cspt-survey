@@ -88,6 +88,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       FormSubmittedEvent event, Emitter<HomeState> emit) async {
     emit(HomeDupActionState());
     _formSubmittedUseCase!();
-    emit(HomeLoadingState());
+    emit(HomeDataEntryState(stateData: await _initialHomeUseCase!()));
   }
 }
