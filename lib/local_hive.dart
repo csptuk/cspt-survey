@@ -7,4 +7,8 @@ class LocalHive {
   Future<void> create() async {
     devoteeModel = await Hive.openBox<DevoteeModel>("devotee_box");
   }
+
+  Future<void> close() async {
+    devoteeModel!.close();
+  }
 }

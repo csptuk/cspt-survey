@@ -1,7 +1,7 @@
-import 'package:csspt_app/features/home/domain/entities/devotee_entity.dart';
+import 'package:csspt_app/features/home/domain/entities/home_devotee_entity.dart';
 
-class DevoteeModel extends DevoteeEntity {
-  const DevoteeModel({
+class HomeDevoteeModel extends HomeDevoteeEntity {
+  const HomeDevoteeModel({
     super.firstName,
     super.lastName,
     super.email,
@@ -13,8 +13,8 @@ class DevoteeModel extends DevoteeEntity {
     super.volunteeringService,
   });
 
-  factory DevoteeModel.fromJson(Map<String, dynamic> json) {
-    return DevoteeModel(
+  factory HomeDevoteeModel.fromJson(Map<String, dynamic> json) {
+    return HomeDevoteeModel(
       firstName: json["first_name"],
       lastName: json["last_name"],
       email: json["email"],
@@ -41,7 +41,7 @@ class DevoteeModel extends DevoteeEntity {
     };
   }
 
-  DevoteeModel copyWith({
+  HomeDevoteeModel copyWith({
     String? firstName,
     String? lastName,
     String? email,
@@ -52,7 +52,7 @@ class DevoteeModel extends DevoteeEntity {
     String? volunteering,
     List<Map<String, dynamic>>? volunteeringService,
   }) {
-    return DevoteeModel(
+    return HomeDevoteeModel(
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       email: email ?? this.email,

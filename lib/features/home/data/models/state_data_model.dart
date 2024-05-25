@@ -1,38 +1,42 @@
-import 'package:csspt_app/features/home/data/models/devotee_model.dart';
+import 'package:csspt_app/features/home/data/models/home_devotee_model.dart';
+import 'package:csspt_app/features/home/data/models/validators_model.dart';
 import 'package:csspt_app/features/home/domain/entities/state_data_entity.dart';
 
 class StateDataModel extends StateDataEntity {
   const StateDataModel({
     super.data,
-    super.errorFields,
+    super.validators,
+    super.validationFailed,
   });
 
   factory StateDataModel.fromJson(Map<String, dynamic> json) {
     return StateDataModel(
       data: json["data"],
-      errorFields: json["error_fields"],
+      validationFailed: json["validation_failed"],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       "data": data,
-      "error_fields": errorFields,
+      "validation_failed": validationFailed,
     };
   }
 
   StateDataModel copyWith({
-    DevoteeModel? data,
-    List<String>? errorFields,
+    HomeDevoteeModel? data,
+    ValidatorsModel? validators,
+    bool? validationFailed,
   }) {
     return StateDataModel(
       data: data ?? this.data,
-      errorFields: errorFields ?? this.errorFields,
+      validators: validators ?? this.validators,
+      validationFailed: validationFailed ?? this.validationFailed,
     );
   }
 
   @override
   String toString() {
-    return "data: $data, errorFields: $errorFields";
+    return "data: $data, validationFailed: $validationFailed";
   }
 }

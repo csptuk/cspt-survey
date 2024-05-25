@@ -6,11 +6,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await initializeDependencies();
-
   await Hive.initFlutter();
   Hive.registerAdapter(DevoteeModelAdapter());
+
+  await initializeDependencies();
 
   runApp(const MyApp());
 }

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class DevoteeEntity extends Equatable {
-  const DevoteeEntity({
+class HomeDevoteeEntity extends Equatable {
+  const HomeDevoteeEntity({
     this.firstName,
     this.lastName,
     this.email,
