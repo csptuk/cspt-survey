@@ -1,16 +1,16 @@
 import 'package:csspt_app/core/usecase/usecase.dart';
-import 'package:csspt_app/features/home/data/models/home_devotee_model.dart';
-import 'package:csspt_app/features/home/data/models/state_data_model.dart';
-import 'package:csspt_app/features/home/data/models/validators_model.dart';
+import 'package:csspt_app/features/data_entry/data/models/data_entry_devotee_model.dart';
+import 'package:csspt_app/features/data_entry/data/models/data_entry_state_data_model.dart';
+import 'package:csspt_app/features/data_entry/data/models/validators_model.dart';
 
-class InitialHomeUseCase extends UseCase {
-  InitialHomeUseCase();
+class InitialDataEntryUseCase extends UseCase {
+  InitialDataEntryUseCase();
 
   @override
   Future call({params}) async {
     // Don't make it const
-    StateDataModel stateData = StateDataModel(
-      data: HomeDevoteeModel(
+    DataEntryStateDataModel stateData = DataEntryStateDataModel(
+      data: DataEntryDevoteeModel(
         firstName: "",
         lastName: "",
         email: "",

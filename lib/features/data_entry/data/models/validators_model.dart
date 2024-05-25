@@ -1,4 +1,4 @@
-import 'package:csspt_app/features/home/domain/entities/validators_entity.dart';
+import 'package:csspt_app/features/data_entry/domain/entities/validators_entity.dart';
 
 class ValidatorsModel extends ValidatorsEntity {
   const ValidatorsModel({

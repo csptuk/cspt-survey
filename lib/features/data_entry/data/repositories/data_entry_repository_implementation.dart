@@ -1,14 +1,14 @@
 import 'package:csspt_app/devotee_model.dart';
-import 'package:csspt_app/features/home/data/models/home_devotee_model.dart';
-import 'package:csspt_app/features/home/domain/repositories/home_repository.dart';
+import 'package:csspt_app/features/data_entry/data/models/data_entry_devotee_model.dart';
+import 'package:csspt_app/features/data_entry/domain/repositories/data_entry_repository.dart';
 import 'package:csspt_app/injection_container.dart';
 import 'package:csspt_app/local_hive.dart';
 import 'package:uuid/uuid.dart';
 
-class HomeRepositoryImplementation implements HomeRepository {
+class DataEntryRepositoryImplementation implements DataEntryRepository {
   @override
   Future<void> addDataToLocalRepository(
-      {required HomeDevoteeModel data}) async {
+      {required DataEntryDevoteeModel data}) async {
     LocalHive localHive = sl.get<LocalHive>();
 
     Map<String, dynamic> devoteeModelJson =

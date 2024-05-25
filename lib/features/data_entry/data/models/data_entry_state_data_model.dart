@@ -1,16 +1,16 @@
-import 'package:csspt_app/features/home/data/models/home_devotee_model.dart';
-import 'package:csspt_app/features/home/data/models/validators_model.dart';
-import 'package:csspt_app/features/home/domain/entities/state_data_entity.dart';
+import 'package:csspt_app/features/data_entry/data/models/data_entry_devotee_model.dart';
+import 'package:csspt_app/features/data_entry/data/models/validators_model.dart';
+import 'package:csspt_app/features/data_entry/domain/entities/data_entry_state_data_entity.dart';
 
-class StateDataModel extends StateDataEntity {
-  const StateDataModel({
+class DataEntryStateDataModel extends DataEntryStateDataEntity {
+  const DataEntryStateDataModel({
     super.data,
     super.validators,
     super.validationFailed,
   });
 
-  factory StateDataModel.fromJson(Map<String, dynamic> json) {
-    return StateDataModel(
+  factory DataEntryStateDataModel.fromJson(Map<String, dynamic> json) {
+    return DataEntryStateDataModel(
       data: json["data"],
       validationFailed: json["validation_failed"],
     );
@@ -23,12 +23,12 @@ class StateDataModel extends StateDataEntity {
     };
   }
 
-  StateDataModel copyWith({
-    HomeDevoteeModel? data,
+  DataEntryStateDataModel copyWith({
+    DataEntryDevoteeModel? data,
     ValidatorsModel? validators,
     bool? validationFailed,
   }) {
-    return StateDataModel(
+    return DataEntryStateDataModel(
       data: data ?? this.data,
       validators: validators ?? this.validators,
       validationFailed: validationFailed ?? this.validationFailed,

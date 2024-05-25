@@ -1,17 +1,17 @@
-part of 'home_bloc.dart';
+part of 'data_entry_bloc.dart';
 
-abstract class HomeEvent extends Equatable {
-  const HomeEvent();
+abstract class DataEntryEvent extends Equatable {
+  const DataEntryEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class LoadedEvent extends HomeEvent {
+class LoadedEvent extends DataEntryEvent {
   const LoadedEvent();
 }
 
-class TextFieldFocusChangeEvent extends HomeEvent {
+class TextFieldFocusChangeEvent extends DataEntryEvent {
   const TextFieldFocusChangeEvent({
     required this.key,
     required this.value,
@@ -20,10 +20,10 @@ class TextFieldFocusChangeEvent extends HomeEvent {
 
   final String key;
   final String value;
-  final StateDataModel stateData;
+  final DataEntryStateDataModel stateData;
 }
 
-class RadioButtonToggledEvent extends HomeEvent {
+class RadioButtonToggledEvent extends DataEntryEvent {
   const RadioButtonToggledEvent({
     required this.key,
     required this.value,
@@ -32,10 +32,10 @@ class RadioButtonToggledEvent extends HomeEvent {
 
   final String key;
   final String value;
-  final StateDataModel stateData;
+  final DataEntryStateDataModel stateData;
 }
 
-class CheckboxSelectedEvent extends HomeEvent {
+class CheckboxSelectedEvent extends DataEntryEvent {
   const CheckboxSelectedEvent({
     required this.key,
     required this.value,
@@ -44,21 +44,21 @@ class CheckboxSelectedEvent extends HomeEvent {
 
   final String? key;
   final bool? value;
-  final StateDataModel stateData;
+  final DataEntryStateDataModel stateData;
 }
 
-class ValidationFailedEvent extends HomeEvent {
+class ValidationFailedEvent extends DataEntryEvent {
   const ValidationFailedEvent({
     required this.stateData,
   });
 
-  final StateDataModel stateData;
+  final DataEntryStateDataModel stateData;
 }
 
-class FormSubmittedEvent extends HomeEvent {
+class FormSubmittedEvent extends DataEntryEvent {
   const FormSubmittedEvent({
     required this.stateData,
   });
 
-  final StateDataModel stateData;
+  final DataEntryStateDataModel stateData;
 }

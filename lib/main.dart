@@ -1,5 +1,5 @@
 import 'package:csspt_app/devotee_model.dart';
-import 'package:csspt_app/features/home/presentation/views/home_view.dart';
+import 'package:csspt_app/features/data_entry/presentation/views/data_entry_view.dart';
 import 'package:csspt_app/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -41,7 +41,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: SafeArea(child: HomeView()),
+      home: SafeArea(
+        child: DataEntryView(),
+      ),
     );
   }
 }

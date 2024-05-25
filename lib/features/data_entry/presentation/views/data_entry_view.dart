@@ -1,12 +1,12 @@
 import 'package:csspt_app/constants.dart';
-import 'package:csspt_app/features/home/data/models/home_devotee_model.dart';
-import 'package:csspt_app/features/home/data/models/state_data_model.dart';
-import 'package:csspt_app/features/home/presentation/bloc/home_bloc.dart';
-import 'package:csspt_app/features/home/presentation/widgets/custom_checkbox_list_tile.dart';
-import 'package:csspt_app/features/home/presentation/widgets/custom_container.dart';
-import 'package:csspt_app/features/home/presentation/widgets/custom_elevated_button.dart';
-import 'package:csspt_app/features/home/presentation/widgets/custom_radio_button.dart';
-import 'package:csspt_app/features/home/presentation/widgets/custom_text_field.dart';
+import 'package:csspt_app/features/data_entry/data/models/data_entry_devotee_model.dart';
+import 'package:csspt_app/features/data_entry/data/models/data_entry_state_data_model.dart';
+import 'package:csspt_app/features/data_entry/presentation/bloc/data_entry_bloc.dart';
+import 'package:csspt_app/features/data_entry/presentation/widgets/custom_checkbox_list_tile.dart';
+import 'package:csspt_app/features/data_entry/presentation/widgets/custom_container.dart';
+import 'package:csspt_app/features/data_entry/presentation/widgets/custom_elevated_button.dart';
+import 'package:csspt_app/features/data_entry/presentation/widgets/custom_radio_button.dart';
+import 'package:csspt_app/features/data_entry/presentation/widgets/custom_text_field.dart';
 import 'package:csspt_app/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -14,10 +14,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 final _formKey = GlobalKey<FormState>();
 
-class HomeView extends StatelessWidget {
-  HomeView({super.key});
+class DataEntryView extends StatelessWidget {
+  DataEntryView({super.key});
 
-  final HomeBloc _homeBloc = sl.get<HomeBloc>();
+  final DataEntryBloc _dataEntryBloc = sl.get<DataEntryBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +25,17 @@ class HomeView extends StatelessWidget {
   }
 
   Widget _buildBody() {
-    return BlocConsumer<HomeBloc, HomeState>(
-      bloc: _homeBloc,
-      listenWhen: (prev, next) => next is HomeActionState,
-      buildWhen: (prev, next) => next is! HomeActionState,
+    return BlocConsumer<DataEntryBloc, DataEntryState>(
+      bloc: _dataEntryBloc,
+      listenWhen: (prev, next) => next is DataEntryActionState,
+      buildWhen: (prev, next) => next is! DataEntryActionState,
       listener: _blocListener,
       builder: _blocBuilder,
     );
   }
 
-  void _blocListener(BuildContext context, HomeState state) {
-    debugPrint("listen: Home ${state.runtimeType}");
+  void _blocListener(BuildContext context, DataEntryState state) {
+    debugPrint("listen: DataEntry ${state.runtimeType}");
 
     switch (state.runtimeType) {
       default:
@@ -43,23 +43,19 @@ class HomeView extends StatelessWidget {
     }
   }
 
-  Widget _blocBuilder(BuildContext context, HomeState state) {
-    debugPrint("build : Home ${state.runtimeType}");
+  Widget _blocBuilder(BuildContext context, DataEntryState state) {
+    debugPrint("build : DataEntry ${state.runtimeType}");
 
     switch (state.runtimeType) {
-      case const (HomeLoadingState):
+      case const (DataEntryLoadingState):
         return _buildLoadingView();
 
-      case const (HomeDataEntryState):
-        final StateDataModel stateData = state.stateData!;
-
+      case const (DataEntryLoadedState):
+        final DataEntryStateDataModel stateData = state.stateData!;
         return _buildDataEntryView(stateData);
 
-      case const (HomeDataSubmittedState):
+      case const (DataEntrySubmittedState):
         return _buildDataSubmittedView();
-
-      case const (HomeErrorState):
-        return _buildErrorView();
 
       default:
         return Container();
@@ -67,7 +63,7 @@ class HomeView extends StatelessWidget {
   }
 
   Widget _buildLoadingView() {
-    _homeBloc.add(const LoadedEvent());
+    _dataEntryBloc.add(const LoadedEvent());
 
     return const Center(
       child: SizedBox(
@@ -79,11 +75,11 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildDataEntryView(StateDataModel stateData) {
-    HomeDevoteeModel data = stateData.data!;
+  Widget _buildDataEntryView(DataEntryStateDataModel stateData) {
+    DataEntryDevoteeModel data = stateData.data!;
 
     void textFieldFocusChangeHelper(String key, String value) {
-      _homeBloc.add(TextFieldFocusChangeEvent(
+      _dataEntryBloc.add(TextFieldFocusChangeEvent(
         key: key,
         value: value,
         stateData: stateData,
@@ -91,7 +87,7 @@ class HomeView extends StatelessWidget {
     }
 
     void radioButtonToggleHelper(String key, String value) {
-      _homeBloc.add(RadioButtonToggledEvent(
+      _dataEntryBloc.add(RadioButtonToggledEvent(
         key: key,
         value: value,
         stateData: stateData,
@@ -99,7 +95,7 @@ class HomeView extends StatelessWidget {
     }
 
     void checkboxToggleHelper(String key, bool value) {
-      _homeBloc.add(CheckboxSelectedEvent(
+      _dataEntryBloc.add(CheckboxSelectedEvent(
         key: key,
         value: value,
         stateData: stateData,
@@ -622,10 +618,10 @@ class HomeView extends StatelessWidget {
                                   text: "Submit",
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
-                                      _homeBloc.add(FormSubmittedEvent(
+                                      _dataEntryBloc.add(FormSubmittedEvent(
                                           stateData: stateData));
                                     } else {
-                                      _homeBloc.add(ValidationFailedEvent(
+                                      _dataEntryBloc.add(ValidationFailedEvent(
                                           stateData: stateData));
                                     }
                                   },
@@ -654,550 +650,4 @@ class HomeView extends StatelessWidget {
       child: Text('Error'),
     );
   }
-
-  Widget _buildErrorView() {
-    return const Center(
-      child: Text('Error'),
-    );
-  }
-
-//
-// Uuid uuid = const Uuid();
-//
-// TextEditingController firstNameController = TextEditingController();
-// TextEditingController lastNameController = TextEditingController();
-// TextEditingController emailController = TextEditingController();
-// TextEditingController mobileController = TextEditingController();
-//
-// String inGroup = "";
-// String joinGroup = "";
-// String picturesForSocialMedia = "";
-// String volunteering = "";
-//
-// List<Map<String, dynamic>> volunteeringService = [
-//   {"title": "Prepare and Organising Events", "value": false},
-//   {"title": "Prasad Prep/Serving/Inventory maintenance", "value": false},
-//   {"title": "Fund Raising", "value": false},
-//   {"title": "Front Desk", "value": false},
-//   {"title": "Social Media Assistance", "value": false},
-// ];
-//
-// void onSubmit() async {
-//   if (firstNameController.text.trim().isEmpty) {}
-//   if (lastNameController.text.trim().isEmpty) {}
-//   if (emailController.text.trim().isEmpty &&
-//       emailController.text.contains("@")) {}
-//   if (mobileController.text.trim().isEmpty) {}
-//
-//   DevoteeDataModel model = DevoteeDataModel(
-//     date: DateTime.now(),
-//     id: uuid.v4(),
-//     firstName: firstNameController.text.trim(),
-//     lastName: lastNameController.text.trim(),
-//     email: emailController.text.trim(),
-//     mobileNumber: mobileController.text.trim(),
-//     inGroup: inGroup,
-//     joinGroup: joinGroup,
-//     picturesForSocialMedia: picturesForSocialMedia,
-//     volunteering: volunteering,
-//     volunteeringService: volunteeringService,
-//   );
-//
-//   Box<DevoteeDataModel> box =
-//       await Hive.openBox<DevoteeDataModel>("devotee_box");
-//
-//   await box.add(model);
-//   print(box.getAt(box.length - 1));
-//   await box.close();
-// }
-//
-// @override
-// Widget build(BuildContext context) {
-//   return LayoutBuilder(
-//     builder: (BuildContext context, BoxConstraints constraints) {
-//       return Scaffold(
-//         appBar: PreferredSize(
-//           preferredSize: Size(
-//             constraints.maxWidth,
-//             60.0,
-//           ),
-//           child: Material(
-//             elevation: 7,
-//             borderRadius: const BorderRadius.only(
-//               bottomLeft: Radius.circular(10),
-//               bottomRight: Radius.circular(10),
-//             ),
-//             child: Container(
-//               decoration: const BoxDecoration(
-//                 color: kAppBarBackgroundColor,
-//                 borderRadius: BorderRadius.only(
-//                   bottomLeft: Radius.circular(10),
-//                   bottomRight: Radius.circular(10),
-//                 ),
-//               ),
-//               child: Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [
-//                   Expanded(
-//                     child: Align(
-//                       alignment: Alignment.center,
-//                       child: Padding(
-//                         padding: const EdgeInsets.symmetric(horizontal: 30.0),
-//                         child: Text(
-//                           "Chelmsford Sri Srinivasa Perumal Temple",
-//                           style: kButtonTextStyle,
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                   IconButton(
-//                     onPressed: () {},
-//                     icon: const Icon(Icons.more_vert_rounded),
-//                   )
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ),
-//         // AppBar(
-//         //   elevation: 7,
-//         //   scrolledUnderElevation: 7,
-//         //   centerTitle: true,
-//         //   title: Text(
-//         //     "Chelmsford Sri Srinivasa Perumal Temple",
-//         //     style: kButtonTextStyle,
-//         //   ),
-//         //   shape: RoundedRectangleBorder(
-//         //     borderRadius: BorderRadius.only(
-//         //       bottomLeft: Radius.circular(10),
-//         //       bottomRight: Radius.circular(10),
-//         //     ),
-//         //   ),
-//         // ),
-//         backgroundColor: kBodyBackgroundColor,
-//         body: GestureDetector(
-//           onTap: () {
-//             FocusManager.instance.primaryFocus?.unfocus();
-//           },
-//           child: Row(
-//             // mainAxisAlignment: MainAxisAlignment.end,
-//             children: [
-//               Expanded(
-//                 child: Padding(
-//                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
-//                   child: Container(
-//                     decoration: const BoxDecoration(
-//                       image: DecorationImage(
-//                         image: AssetImage("asserts/cspt_logo.png"),
-//                         fit: BoxFit.fitWidth,
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//               SizedBox(
-//                 width: constraints.maxWidth / 2,
-//                 child: Padding(
-//                   padding: const EdgeInsets.symmetric(horizontal: 0.0),
-//                   child: SingleChildScrollView(
-//                     physics: const BouncingScrollPhysics(),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         const SizedBox(
-//                           height: 20.0,
-//                         ),
-//                         CustomContainer(
-//                           child: Column(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: [
-//                               Row(
-//                                 children: [
-//                                   Text(
-//                                     "First Name",
-//                                     style: kLabelTextStyle,
-//                                   ),
-//                                 ],
-//                               ),
-//                               CustomTextField(
-//                                   controller: firstNameController),
-//                             ],
-//                           ),
-//                         ),
-//                         const SizedBox(
-//                           height: 20.0,
-//                         ),
-//                         CustomContainer(
-//                           child: Column(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: [
-//                               Row(
-//                                 children: [
-//                                   Text(
-//                                     "Last Name",
-//                                     style: kLabelTextStyle,
-//                                   ),
-//                                 ],
-//                               ),
-//                               CustomTextField(controller: lastNameController),
-//                             ],
-//                           ),
-//                         ),
-//                         const SizedBox(
-//                           height: 20.0,
-//                         ),
-//                         CustomContainer(
-//                           child: Column(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: [
-//                               Row(
-//                                 children: [
-//                                   Text(
-//                                     "Email",
-//                                     style: kLabelTextStyle,
-//                                   ),
-//                                 ],
-//                               ),
-//                               CustomTextField(
-//                                 controller: emailController,
-//                                 inputType: TextInputType.emailAddress,
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                         const SizedBox(
-//                           height: 20.0,
-//                         ),
-//                         CustomContainer(
-//                           child: Column(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: [
-//                               Row(
-//                                 children: [
-//                                   Text(
-//                                     "Mobile No",
-//                                     style: kLabelTextStyle,
-//                                   ),
-//                                 ],
-//                               ),
-//                               CustomTextField(
-//                                 controller: mobileController,
-//                                 inputType: TextInputType.phone,
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                         const SizedBox(
-//                           height: 20.0,
-//                         ),
-//                         CustomContainer(
-//                           child: Column(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: [
-//                               Row(
-//                                 children: [
-//                                   Text(
-//                                     "Are you in our temple WhatsApp group ?",
-//                                     style: kLabelTextStyle,
-//                                   ),
-//                                 ],
-//                               ),
-//                               const SizedBox(
-//                                 height: 10,
-//                               ),
-//                               CustomRadioButton(
-//                                 value: "yes",
-//                                 label: "Yes",
-//                                 groupValue: inGroup,
-//                                 onChanged: (value) {
-//                                   setState(() {
-//                                     inGroup = value ?? "";
-//                                   });
-//                                 },
-//                               ),
-//                               CustomRadioButton(
-//                                 value: "no",
-//                                 label: "No",
-//                                 groupValue: inGroup,
-//                                 onChanged: (value) {
-//                                   setState(() {
-//                                     inGroup = value ?? "";
-//                                   });
-//                                 },
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                         const SizedBox(
-//                           height: 20.0,
-//                         ),
-//                         if (inGroup == "no")
-//                           Animate(
-//                             effects: const [
-//                               SlideEffect(
-//                                 delay: Duration(milliseconds: 10),
-//                                 duration: Duration(milliseconds: 500),
-//                                 curve: Curves.decelerate,
-//                                 begin: Offset(1, 0),
-//                               ),
-//                             ],
-//                             child: CustomContainer(
-//                               child: Animate(
-//                                 effects: const [
-//                                   FadeEffect(
-//                                     duration: Duration(milliseconds: 300),
-//                                     curve: Curves.easeIn,
-//                                   ),
-//                                 ],
-//                                 child: Column(
-//                                   crossAxisAlignment:
-//                                       CrossAxisAlignment.start,
-//                                   children: [
-//                                     Row(
-//                                       children: [
-//                                         Text(
-//                                           "Are you interested in joining our WhatsApp group ?",
-//                                           style: kLabelTextStyle,
-//                                         ),
-//                                       ],
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 10,
-//                                     ),
-//                                     CustomRadioButton(
-//                                       value: "yes",
-//                                       label: "Yes",
-//                                       groupValue: joinGroup,
-//                                       onChanged: (value) {
-//                                         setState(() {
-//                                           joinGroup = value ?? "";
-//                                         });
-//                                       },
-//                                     ),
-//                                     CustomRadioButton(
-//                                       value: "no",
-//                                       label: "No",
-//                                       groupValue: joinGroup,
-//                                       onChanged: (value) {
-//                                         setState(() {
-//                                           joinGroup = value ?? "";
-//                                         });
-//                                       },
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         if (inGroup == "no")
-//                           const SizedBox(
-//                             height: 20.0,
-//                           ),
-//                         Animate(
-//                           effects: [
-//                             if (inGroup == "no")
-//                               const SlideEffect(
-//                                 duration: Duration(milliseconds: 300),
-//                                 curve: Curves.fastLinearToSlowEaseIn,
-//                               ),
-//                             if (inGroup != "no")
-//                               const SlideEffect(
-//                                 duration: Duration(milliseconds: 500),
-//                                 curve: Curves.decelerate,
-//                                 begin: Offset(0, 1),
-//                               ),
-//                           ],
-//                           child: CustomContainer(
-//                             child: Column(
-//                               crossAxisAlignment: CrossAxisAlignment.start,
-//                               children: [
-//                                 Row(
-//                                   children: [
-//                                     Text(
-//                                       "Do you consent for taking photos & publishing on social media ?",
-//                                       style: kLabelTextStyle,
-//                                     ),
-//                                   ],
-//                                 ),
-//                                 const SizedBox(
-//                                   height: 10,
-//                                 ),
-//                                 CustomRadioButton(
-//                                   value: "yes",
-//                                   label: "Yes",
-//                                   groupValue: picturesForSocialMedia,
-//                                   onChanged: (value) {
-//                                     setState(() {
-//                                       picturesForSocialMedia = value ?? "";
-//                                     });
-//                                   },
-//                                 ),
-//                                 CustomRadioButton(
-//                                   value: "no",
-//                                   label: "No",
-//                                   groupValue: picturesForSocialMedia,
-//                                   onChanged: (value) {
-//                                     setState(() {
-//                                       picturesForSocialMedia = value ?? "";
-//                                     });
-//                                   },
-//                                 ),
-//                               ],
-//                             ),
-//                           ),
-//                         ),
-//                         const SizedBox(
-//                           height: 20.0,
-//                         ),
-//                         Animate(
-//                           effects: [
-//                             if (inGroup != "no")
-//                               const SlideEffect(
-//                                 duration: Duration(milliseconds: 500),
-//                                 curve: Curves.decelerate,
-//                                 begin: Offset(0, 1),
-//                               ),
-//                           ],
-//                           child: CustomContainer(
-//                             child: Column(
-//                               crossAxisAlignment: CrossAxisAlignment.start,
-//                               children: [
-//                                 Row(
-//                                   children: [
-//                                     Text(
-//                                       "Are you interested in volunteering ?",
-//                                       style: kLabelTextStyle,
-//                                     ),
-//                                   ],
-//                                 ),
-//                                 const SizedBox(
-//                                   height: 10,
-//                                 ),
-//                                 CustomRadioButton(
-//                                   value: "yes",
-//                                   label: "Yes",
-//                                   groupValue: volunteering,
-//                                   onChanged: (value) {
-//                                     setState(() {
-//                                       volunteering = value ?? "";
-//                                     });
-//                                   },
-//                                 ),
-//                                 CustomRadioButton(
-//                                   value: "no",
-//                                   label: "No",
-//                                   groupValue: volunteering,
-//                                   onChanged: (value) {
-//                                     setState(() {
-//                                       volunteering = value ?? "";
-//                                     });
-//                                   },
-//                                 ),
-//                               ],
-//                             ),
-//                           ),
-//                         ),
-//                         const SizedBox(
-//                           height: 20.0,
-//                         ),
-//                         if (volunteering == "yes")
-//                           Animate(
-//                             effects: const [
-//                               SlideEffect(
-//                                 delay: Duration(milliseconds: 10),
-//                                 duration: Duration(milliseconds: 500),
-//                                 curve: Curves.decelerate,
-//                                 begin: Offset(1, 0),
-//                               ),
-//                             ],
-//                             child: CustomContainer(
-//                               child: Animate(
-//                                 effects: const [
-//                                   FadeEffect(
-//                                     duration: Duration(milliseconds: 300),
-//                                     curve: Curves.easeIn,
-//                                   ),
-//                                 ],
-//                                 child: Column(
-//                                   crossAxisAlignment:
-//                                       CrossAxisAlignment.start,
-//                                   children: [
-//                                     Row(
-//                                       children: [
-//                                         Text(
-//                                           "See how your time and talents can make a difference at the temple",
-//                                           style: kLabelTextStyle,
-//                                         ),
-//                                       ],
-//                                     ),
-//                                     const SizedBox(
-//                                       height: 10,
-//                                     ),
-//                                     ListView.builder(
-//                                       itemCount: volunteeringService.length,
-//                                       shrinkWrap: true,
-//                                       physics:
-//                                           const NeverScrollableScrollPhysics(),
-//                                       itemBuilder:
-//                                           (BuildContext context, int index) {
-//                                         return CustomCheckboxListTile(
-//                                           title: volunteeringService[index]
-//                                               ["title"],
-//                                           value: volunteeringService[index]
-//                                               ["value"],
-//                                           onChanged: (value) {
-//                                             setState(() {
-//                                               volunteeringService[index]
-//                                                   ["value"] = value;
-//                                             });
-//                                           },
-//                                         );
-//                                       },
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         if (volunteering == "yes")
-//                           const SizedBox(
-//                             height: 20.0,
-//                           ),
-//                         Animate(
-//                           effects: [
-//                             if (inGroup == "no" || volunteering == "yes")
-//                               const SlideEffect(
-//                                 duration: Duration(milliseconds: 300),
-//                                 curve: Curves.fastLinearToSlowEaseIn,
-//                               ),
-//                             if (inGroup != "no" || volunteering != "yes")
-//                               const SlideEffect(
-//                                 duration: Duration(milliseconds: 500),
-//                                 curve: Curves.decelerate,
-//                                 begin: Offset(0, 1),
-//                               ),
-//                           ],
-//                           child: Align(
-//                             alignment: Alignment.center,
-//                             child: CustomElevatedButton(
-//                               text: "Submit",
-//                               onPressed: onSubmit,
-//                             ),
-//                           ),
-//                         ),
-//                         const SizedBox(
-//                           height: 20.0,
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       );
-//     },
-//   );
-// }
 }

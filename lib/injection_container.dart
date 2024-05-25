@@ -1,12 +1,12 @@
-import 'package:csspt_app/features/home/data/repositories/home_repository_implementation.dart';
-import 'package:csspt_app/features/home/domain/repositories/home_repository.dart';
-import 'package:csspt_app/features/home/domain/usecases/checkbox_selected_usecase.dart';
-import 'package:csspt_app/features/home/domain/usecases/form_submitted_usecase.dart';
-import 'package:csspt_app/features/home/domain/usecases/initial_home_usecase.dart';
-import 'package:csspt_app/features/home/domain/usecases/radio_button_toggled_usecase.dart';
-import 'package:csspt_app/features/home/domain/usecases/text_field_focus_change_usecase.dart';
-import 'package:csspt_app/features/home/domain/usecases/validation_failed_usecase.dart';
-import 'package:csspt_app/features/home/presentation/bloc/home_bloc.dart';
+import 'package:csspt_app/features/data_entry/data/repositories/data_entry_repository_implementation.dart';
+import 'package:csspt_app/features/data_entry/domain/repositories/data_entry_repository.dart';
+import 'package:csspt_app/features/data_entry/domain/usecases/checkbox_selected_usecase.dart';
+import 'package:csspt_app/features/data_entry/domain/usecases/form_submitted_usecase.dart';
+import 'package:csspt_app/features/data_entry/domain/usecases/initial_data_entry_usecase.dart';
+import 'package:csspt_app/features/data_entry/domain/usecases/radio_button_toggled_usecase.dart';
+import 'package:csspt_app/features/data_entry/domain/usecases/text_field_focus_change_usecase.dart';
+import 'package:csspt_app/features/data_entry/domain/usecases/validation_failed_usecase.dart';
+import 'package:csspt_app/features/data_entry/presentation/bloc/data_entry_bloc.dart';
 import 'package:csspt_app/local_hive.dart';
 import 'package:get_it/get_it.dart';
 
@@ -16,10 +16,10 @@ Future<void> initializeDependencies() async {
   // Hive
   sl.registerLazySingleton<LocalHive>(() => LocalHive());
 
-  // Home
-  sl.registerLazySingleton<HomeRepository>(
-      () => HomeRepositoryImplementation());
-  sl.registerLazySingleton<InitialHomeUseCase>(() => InitialHomeUseCase());
+  // DataEntry
+  sl.registerLazySingleton<DataEntryRepository>(
+      () => DataEntryRepositoryImplementation());
+  sl.registerLazySingleton<InitialDataEntryUseCase>(() => InitialDataEntryUseCase());
   sl.registerLazySingleton<TextFieldFocusChangeUseCase>(
       () => TextFieldFocusChangeUseCase());
   sl.registerLazySingleton<RadioButtonToggledUseCase>(
@@ -30,6 +30,6 @@ Future<void> initializeDependencies() async {
       () => ValidationFailedUseCase());
   sl.registerLazySingleton<FormSubmittedUseCase>(
       () => FormSubmittedUseCase(sl()));
-  sl.registerFactory<HomeBloc>(
-      () => HomeBloc(sl(), sl(), sl(), sl(), sl(), sl()));
+  sl.registerFactory<DataEntryBloc>(
+      () => DataEntryBloc(sl(), sl(), sl(), sl(), sl(), sl()));
 }
