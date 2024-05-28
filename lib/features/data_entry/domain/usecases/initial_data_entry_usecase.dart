@@ -9,7 +9,7 @@ class InitialDataEntryUseCase extends UseCase {
   @override
   Future call({params}) async {
     // Don't make it const
-    bool dup = false;
+    String value = "";
     DataEntryStateDataModel stateData = DataEntryStateDataModel(
       data: DataEntryDevoteeModel(
         firstName: "",
@@ -23,23 +23,23 @@ class InitialDataEntryUseCase extends UseCase {
         volunteeringService: [
           {
             "title": "Prepare and Organising Events",
-            "value": dup,
+            "value": value,
           },
           {
             "title": "Prasad Prep / Serving / Inventory maintenance",
-            "value": dup,
+            "value": value,
           },
           {
             "title": "Fund Raising",
-            "value": dup,
+            "value": value,
           },
           {
             "title": "Front Desk",
-            "value": dup,
+            "value": value,
           },
           {
             "title": "Social Media Assistance",
-            "value": dup,
+            "value": value,
           },
         ],
       ).toJson(),
@@ -53,7 +53,7 @@ class InitialDataEntryUseCase extends UseCase {
         },
         lastNameValidator: (String? value) {
           if ((value ?? "").trim().isEmpty) {
-            return "LastName is required";
+            return "Lastname is required";
           } else {
             return null;
           }

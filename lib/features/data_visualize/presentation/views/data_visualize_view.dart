@@ -276,7 +276,7 @@ class DataVisualizeView extends StatelessWidget {
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: const Color(0xCCFFFF00),
+                                            color: const Color(0xFFFFFF07),
                                             shape: BoxShape.circle,
                                             boxShadow: kBoxShadowList,
                                           ),
@@ -288,7 +288,7 @@ class DataVisualizeView extends StatelessWidget {
                                         ),
                                       ),
                                       const SizedBox(
-                                        width: 10.0,
+                                        width: 15.0,
                                       ),
                                       GestureDetector(
                                         onTap: () {
@@ -300,7 +300,7 @@ class DataVisualizeView extends StatelessWidget {
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: const Color(0x77FF0000),
+                                            color: const Color(0xFFFFBBBB),
                                             shape: BoxShape.circle,
                                             boxShadow: kBoxShadowList,
                                           ),
@@ -331,7 +331,6 @@ class DataVisualizeView extends StatelessWidget {
                                                   .value!)]["value"] ??
                                           "")
                                       .toString();
-                                  text = text == "true" ? "Yes" : "";
                                 }
 
                                 if (vicinity.column == 1 ||
