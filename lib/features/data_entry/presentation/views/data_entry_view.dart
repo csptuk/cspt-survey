@@ -1,5 +1,4 @@
 import 'package:csspt_app/constants.dart';
-import 'package:csspt_app/features/data_entry/data/models/data_entry_devotee_model.dart';
 import 'package:csspt_app/features/data_entry/data/models/data_entry_state_data_model.dart';
 import 'package:csspt_app/features/data_entry/presentation/bloc/data_entry_bloc.dart';
 import 'package:csspt_app/features/data_entry/presentation/widgets/custom_checkbox_list_tile.dart';
@@ -78,7 +77,7 @@ class DataEntryView extends StatelessWidget {
   }
 
   Widget _buildDataEntryView(DataEntryStateDataModel stateData) {
-    DataEntryDevoteeModel data = stateData.data!;
+    Map<String, dynamic> data = stateData.data!;
 
     void textFieldFocusChangeHelper(String key, String value) {
       _dataEntryBloc.add(TextFieldFocusChangeEvent(
@@ -157,7 +156,7 @@ class DataEntryView extends StatelessWidget {
                                     ),
                                     CustomTextField(
                                       controller: TextEditingController(
-                                        text: data.firstName,
+                                        text: data["first_name"],
                                       ),
                                       focusNode: FocusNode(debugLabel: "1"),
                                       onFocusChange: (value) {
@@ -187,7 +186,7 @@ class DataEntryView extends StatelessWidget {
                                     ),
                                     CustomTextField(
                                       controller: TextEditingController(
-                                        text: data.lastName,
+                                        text: data["last_name"],
                                       ),
                                       focusNode: FocusNode(debugLabel: "2"),
                                       onFocusChange: (value) {
@@ -217,7 +216,7 @@ class DataEntryView extends StatelessWidget {
                                     ),
                                     CustomTextField(
                                       controller: TextEditingController(
-                                        text: data.email,
+                                        text: data["email"],
                                       ),
                                       focusNode: FocusNode(debugLabel: "3"),
                                       inputType: TextInputType.emailAddress,
@@ -248,7 +247,7 @@ class DataEntryView extends StatelessWidget {
                                     ),
                                     CustomTextField(
                                       controller: TextEditingController(
-                                        text: data.mobileNumber,
+                                        text: data["mobile_number"],
                                       ),
                                       focusNode: FocusNode(debugLabel: "4"),
                                       inputType: TextInputType.phone,
@@ -283,7 +282,7 @@ class DataEntryView extends StatelessWidget {
                                     CustomRadioButton(
                                       value: "yes",
                                       label: "Yes",
-                                      groupValue: data.inGroup!,
+                                      groupValue: data["in_group"],
                                       onChanged: (value) {
                                         radioButtonToggleHelper(
                                             "in_group", value ?? "");
@@ -292,7 +291,7 @@ class DataEntryView extends StatelessWidget {
                                     CustomRadioButton(
                                       value: "no",
                                       label: "No",
-                                      groupValue: data.inGroup!,
+                                      groupValue: data["in_group"],
                                       onChanged: (value) {
                                         radioButtonToggleHelper(
                                             "in_group", value ?? "");
@@ -304,7 +303,7 @@ class DataEntryView extends StatelessWidget {
                               const SizedBox(
                                 height: 20.0,
                               ),
-                              if (data.inGroup! == "no")
+                              if (data["in_group"] == "no")
                                 Animate(
                                   effects: const [
                                     SlideEffect(
@@ -340,7 +339,7 @@ class DataEntryView extends StatelessWidget {
                                           CustomRadioButton(
                                             value: "yes",
                                             label: "Yes",
-                                            groupValue: data.joinGroup!,
+                                            groupValue: data["join_group"],
                                             onChanged: (value) {
                                               radioButtonToggleHelper(
                                                   "join_group", value ?? "");
@@ -349,7 +348,7 @@ class DataEntryView extends StatelessWidget {
                                           CustomRadioButton(
                                             value: "no",
                                             label: "No",
-                                            groupValue: data.joinGroup!,
+                                            groupValue: data["join_group"],
                                             onChanged: (value) {
                                               radioButtonToggleHelper(
                                                   "join_group", value ?? "");
@@ -360,18 +359,18 @@ class DataEntryView extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                              if (data.inGroup! == "no")
+                              if (data["in_group"] == "no")
                                 const SizedBox(
                                   height: 20.0,
                                 ),
                               Animate(
                                 effects: [
-                                  if (data.inGroup! == "no")
+                                  if (data["in_group"] == "no")
                                     const SlideEffect(
                                       duration: Duration(milliseconds: 300),
                                       curve: Curves.fastLinearToSlowEaseIn,
                                     ),
-                                  if (data.inGroup! != "no")
+                                  if (data["in_group"] != "no")
                                     const SlideEffect(
                                       duration: Duration(milliseconds: 500),
                                       curve: Curves.decelerate,
@@ -398,7 +397,7 @@ class DataEntryView extends StatelessWidget {
                                         value: "yes",
                                         label: "Yes",
                                         groupValue:
-                                            data.picturesForSocialMedia!,
+                                            data["pictures_for_social_media"],
                                         onChanged: (value) {
                                           radioButtonToggleHelper(
                                               "pictures_for_social_media",
@@ -409,7 +408,7 @@ class DataEntryView extends StatelessWidget {
                                         value: "no",
                                         label: "No",
                                         groupValue:
-                                            data.picturesForSocialMedia!,
+                                            data["pictures_for_social_media"],
                                         onChanged: (value) {
                                           radioButtonToggleHelper(
                                               "pictures_for_social_media",
@@ -425,7 +424,7 @@ class DataEntryView extends StatelessWidget {
                               ),
                               Animate(
                                 effects: [
-                                  if (data.inGroup! != "no")
+                                  if (data["in_group"] != "no")
                                     const SlideEffect(
                                       duration: Duration(milliseconds: 500),
                                       curve: Curves.decelerate,
@@ -451,7 +450,7 @@ class DataEntryView extends StatelessWidget {
                                       CustomRadioButton(
                                         value: "yes",
                                         label: "Yes",
-                                        groupValue: data.volunteering!,
+                                        groupValue: data["volunteering"],
                                         onChanged: (value) {
                                           radioButtonToggleHelper(
                                               "volunteering", value ?? "");
@@ -460,7 +459,7 @@ class DataEntryView extends StatelessWidget {
                                       CustomRadioButton(
                                         value: "no",
                                         label: "No",
-                                        groupValue: data.volunteering!,
+                                        groupValue: data["volunteering"],
                                         onChanged: (value) {
                                           radioButtonToggleHelper(
                                               "volunteering", value ?? "");
@@ -473,7 +472,7 @@ class DataEntryView extends StatelessWidget {
                               const SizedBox(
                                 height: 20.0,
                               ),
-                              if (data.volunteering! == "yes")
+                              if (data["volunteering"] == "yes")
                                 Animate(
                                   effects: const [
                                     SlideEffect(
@@ -507,8 +506,9 @@ class DataEntryView extends StatelessWidget {
                                             height: 10,
                                           ),
                                           ListView.builder(
-                                            itemCount: data
-                                                .volunteeringService!.length,
+                                            itemCount:
+                                                data["volunteering_service"]
+                                                    .length,
                                             shrinkWrap: true,
                                             physics:
                                                 const NeverScrollableScrollPhysics(),
@@ -516,15 +516,15 @@ class DataEntryView extends StatelessWidget {
                                                 int index) {
                                               return CustomCheckboxListTile(
                                                 title:
-                                                    data.volunteeringService![
-                                                        index]["title"],
+                                                    data["volunteering_service"]
+                                                        [index]["title"],
                                                 value:
-                                                    data.volunteeringService![
-                                                        index]["value"],
+                                                    data["volunteering_service"]
+                                                        [index]["value"],
                                                 onChanged: (value) {
                                                   checkboxToggleHelper(
-                                                      data.volunteeringService![
-                                                          index]["title"],
+                                                      data["volunteering_service"]
+                                                          [index]["title"],
                                                       value!);
                                                 },
                                               );
@@ -535,7 +535,7 @@ class DataEntryView extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                              if (data.volunteering! == "yes")
+                              if (data["volunteering"] == "yes")
                                 const SizedBox(
                                   height: 20.0,
                                 ),
@@ -543,15 +543,15 @@ class DataEntryView extends StatelessWidget {
                                 // key: UniqueKey(),
                                 effects: [
                                   if (!stateData.validationFailed!)
-                                    if (data.inGroup! == "no" ||
-                                        data.volunteering! == "yes")
+                                    if (data["in_group"] == "no" ||
+                                        data["volunteering"] == "yes")
                                       const SlideEffect(
                                         duration: Duration(milliseconds: 300),
                                         curve: Curves.fastLinearToSlowEaseIn,
                                       ),
                                   if (!stateData.validationFailed!)
-                                    if (data.inGroup! != "no" ||
-                                        data.volunteering! != "yes")
+                                    if (data["in_group"] != "no" ||
+                                        data["volunteering"] != "yes")
                                       const SlideEffect(
                                         duration: Duration(milliseconds: 500),
                                         curve: Curves.decelerate,

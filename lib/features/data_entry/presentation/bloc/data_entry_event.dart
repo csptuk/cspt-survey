@@ -66,4 +66,3 @@ class FormSubmittedEvent extends DataEntryEvent {
 }
 
 class ResetFormEvent extends DataEntryEvent {}
-

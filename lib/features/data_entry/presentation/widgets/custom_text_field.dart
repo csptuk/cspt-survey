@@ -1,5 +1,4 @@
 import 'package:csspt_app/constants.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -20,20 +19,18 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FocusNode childFocusNode =
+        FocusNode(debugLabel: "${focusNode.debugLabel}_text");
+
     return Focus(
       focusNode: focusNode,
       onFocusChange: (hasFocus) {
-        // print(
-        //     "focus ${focusNode.debugLabel} ${focusNode.hasPrimaryFocus} ${focusNode.children.first.hasPrimaryFocus}");
-        // // if (focusNode.hasFocus & !focusNode.children.first.hasPrimaryFocus) {
-        // //   print("node: ${focusNode.debugLabel} given child focus");
-        // }
+        if (focusNode.hasPrimaryFocus) {
+          childFocusNode.requestFocus();
+        }
         if (!hasFocus) {
           onFocusChange(controller.text);
         }
-        // if (focusNode.hasPrimaryFocus) {
-        //   focusNode.children.first.requestFocus();
-        // }
       },
       child: TextFormField(
         controller: controller,
@@ -42,22 +39,11 @@ class CustomTextField extends StatelessWidget {
         textCapitalization: TextCapitalization.words,
         textAlignVertical: TextAlignVertical.top,
         validator: validator,
-        focusNode: FocusNode(debugLabel: "${focusNode.debugLabel}_text"),
+        focusNode: childFocusNode,
         onTapOutside: (_) {
-          // focusNode.unfocus();
           onFocusChange(controller.text);
         },
         onFieldSubmitted: (_) {
-          // focusNode.nearestScope?.descendants.forEach((node) {
-          //   print("before: ${node}");
-          // });
-          // // int? index = focusNode.nearestScope?.descendants.toList().indexWhere((node) => node.hasPrimaryFocus);
-          // // focusNode.nearestScope?.descendants.elementAt(index! + 1).children.first.requestFocus();
-          // focusNode.nearestScope?.descendants.firstWhere((node) =>
-          // node.debugLabel ==
-          //     "${int.parse(focusNode.debugLabel!) + 1}").requestFocus();
-          // FocusNode? nextNode = focusNode.nearestScope?.descendants.first;
-          // FocusScope.of(context).requestFocus(nextNode);
           onFocusChange(controller.text);
         },
         showCursor: true,

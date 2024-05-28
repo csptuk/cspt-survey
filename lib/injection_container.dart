@@ -12,6 +12,7 @@ import 'package:csspt_app/features/data_visualize/domain/repositories/data_visua
 import 'package:csspt_app/features/data_visualize/domain/usecases/delete_data_visualize_usecase.dart';
 import 'package:csspt_app/features/data_visualize/domain/usecases/edit_data_visualize_usecase.dart';
 import 'package:csspt_app/features/data_visualize/domain/usecases/initial_data_visualize_usecase.dart';
+import 'package:csspt_app/features/data_visualize/domain/usecases/save_data_visualize_usecase.dart';
 import 'package:csspt_app/features/data_visualize/presentation/bloc/data_visualize_bloc.dart';
 import 'package:csspt_app/local_hive.dart';
 import 'package:get_it/get_it.dart';
@@ -47,8 +48,10 @@ Future<void> initializeDependencies() async {
       () => InitialDataVisualizeUseCase(sl()));
   sl.registerLazySingleton<EditDataVisualizeUseCase>(
       () => EditDataVisualizeUseCase());
+  sl.registerLazySingleton<SaveDataVisualizeUseCase>(
+      () => SaveDataVisualizeUseCase(sl()));
   sl.registerLazySingleton<DeleteDataVisualizeUseCase>(
       () => DeleteDataVisualizeUseCase(sl()));
   sl.registerFactory<DataVisualizeBloc>(
-      () => DataVisualizeBloc(sl(), sl(), sl()));
+      () => DataVisualizeBloc(sl(), sl(), sl(), sl()));
 }

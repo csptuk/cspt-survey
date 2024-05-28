@@ -28,10 +28,12 @@ class EditDataEntryEvent extends DataVisualizeEvent {
 class SaveDataEntryEvent extends DataVisualizeEvent {
   const SaveDataEntryEvent({
     required this.key,
+    required this.texts,
     required this.stateData,
   });
 
   final int key;
+  final List<String> texts;
   final DataVisualizeStateDataModel stateData;
 }
 

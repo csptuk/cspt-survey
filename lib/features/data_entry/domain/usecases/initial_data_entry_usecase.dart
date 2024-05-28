@@ -9,6 +9,7 @@ class InitialDataEntryUseCase extends UseCase {
   @override
   Future call({params}) async {
     // Don't make it const
+    bool dup = false;
     DataEntryStateDataModel stateData = DataEntryStateDataModel(
       data: DataEntryDevoteeModel(
         firstName: "",
@@ -22,26 +23,26 @@ class InitialDataEntryUseCase extends UseCase {
         volunteeringService: [
           {
             "title": "Prepare and Organising Events",
-            "value": false,
+            "value": dup,
           },
           {
-            "title": "Prasad Prep/Serving/Inventory maintenance",
-            "value": false,
+            "title": "Prasad Prep / Serving / Inventory maintenance",
+            "value": dup,
           },
           {
             "title": "Fund Raising",
-            "value": false,
+            "value": dup,
           },
           {
             "title": "Front Desk",
-            "value": false,
+            "value": dup,
           },
           {
             "title": "Social Media Assistance",
-            "value": false,
+            "value": dup,
           },
         ],
-      ),
+      ).toJson(),
       validators: ValidatorsModel(
         firstNameValidator: (String? value) {
           if ((value ?? "").trim().isEmpty) {

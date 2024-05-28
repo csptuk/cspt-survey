@@ -6,6 +6,7 @@ import 'package:csspt_app/features/data_visualize/data/models/data_visualize_sta
 import 'package:csspt_app/features/data_visualize/domain/usecases/delete_data_visualize_usecase.dart';
 import 'package:csspt_app/features/data_visualize/domain/usecases/edit_data_visualize_usecase.dart';
 import 'package:csspt_app/features/data_visualize/domain/usecases/initial_data_visualize_usecase.dart';
+import 'package:csspt_app/features/data_visualize/domain/usecases/save_data_visualize_usecase.dart';
 import 'package:equatable/equatable.dart';
 
 part 'data_visualize_event.dart';
@@ -14,11 +15,13 @@ part 'data_visualize_state.dart';
 class DataVisualizeBloc extends Bloc<DataVisualizeEvent, DataVisualizeState> {
   final InitialDataVisualizeUseCase? _initialDataVisualizeUseCase;
   final EditDataVisualizeUseCase? _editDataVisualizeUseCase;
+  final SaveDataVisualizeUseCase? _saveDataVisualizeUseCase;
   final DeleteDataVisualizeUseCase? _deleteDataVisualizeUseCase;
 
   DataVisualizeBloc(
     this._initialDataVisualizeUseCase,
     this._editDataVisualizeUseCase,
+    this._saveDataVisualizeUseCase,
     this._deleteDataVisualizeUseCase,
   ) : super(DataVisualizeLoadingState()) {
     on<LoadedEvent>(loadedEvent);
@@ -52,8 +55,13 @@ class DataVisualizeBloc extends Bloc<DataVisualizeEvent, DataVisualizeState> {
   }
 
   FutureOr<void> saveDataEntryEvent(
-      SaveDataEntryEvent event, Emitter<DataVisualizeState> emit) {
-    // emit(DataVisualizeLoadedState(stateData:));
+      SaveDataEntryEvent event, Emitter<DataVisualizeState> emit) async {
+    emit(DataVisualizeLoadedState(
+        stateData: await _saveDataVisualizeUseCase!(params: {
+      "key": event.key,
+      "texts": event.texts,
+      "state_data": event.stateData,
+    })));
   }
 
   FutureOr<void> deleteDataEntryEvent(

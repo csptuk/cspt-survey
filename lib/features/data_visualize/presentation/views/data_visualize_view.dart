@@ -75,11 +75,12 @@ class DataVisualizeView extends StatelessWidget {
   Widget _buildDataEntryView(DataVisualizeStateDataModel stateData) {
     List<DataVisualizeColumnModel> columns = stateData.columns!;
     List<Map<String, dynamic>> data = stateData.data!;
+    List<TextEditingController> controllers = [];
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return Padding(
-          padding: const EdgeInsets.all(40.0),
+          padding: const EdgeInsets.all(30.0),
           child: Container(
             decoration: BoxDecoration(
               color: kAppBarBackgroundColor,
@@ -98,7 +99,7 @@ class DataVisualizeView extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 15.0, vertical: 10.0),
+                          horizontal: 15.0, vertical: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -267,6 +268,9 @@ class DataVisualizeView extends StatelessWidget {
                                                 SaveDataEntryEvent(
                                                     key: data[vicinity.row - 1]
                                                         ["key"],
+                                                    texts: controllers
+                                                        .map((e) => e.text)
+                                                        .toList(),
                                                     stateData: stateData));
                                           }
                                         },
@@ -320,8 +324,7 @@ class DataVisualizeView extends StatelessWidget {
                                 if (columns[vicinity.column].value == "date") {
                                   text = DateFormat('dd-MM-yyyy').format(
                                       DateTime.parse(text.toUpperCase()));
-                                }
-                                if (vicinity.column >= 10) {
+                                } else if (vicinity.column >= 10) {
                                   text = (data[vicinity.row - 1]
                                                   ["volunteering_service"][
                                               int.parse(columns[vicinity.column]
@@ -332,8 +335,7 @@ class DataVisualizeView extends StatelessWidget {
                                 }
 
                                 if (vicinity.column == 1 ||
-                                    data[vicinity.row - 1]["edit_state"] ==
-                                        false) {
+                                    !data[vicinity.row - 1]["edit_state"]) {
                                   return TableViewCell(
                                     child: Center(
                                       child: SingleChildScrollView(
@@ -346,13 +348,24 @@ class DataVisualizeView extends StatelessWidget {
                                     ),
                                   );
                                 } else {
+                                  controllers
+                                      .add(TextEditingController(text: text));
+
                                   return TableViewCell(
-                                    child: Center(
-                                      child: TextFormField(
-                                        controller:
-                                            TextEditingController(text: text),
-                                        style: GoogleFonts.lato(),
-                                        decoration: InputDecoration(),
+                                    child: TextFormField(
+                                      controller:
+                                          controllers[vicinity.column - 2],
+                                      textInputAction: TextInputAction.next,
+                                      textCapitalization:
+                                          TextCapitalization.words,
+                                      textAlignVertical: TextAlignVertical.top,
+                                      cursorColor: kCursorColor,
+                                      style: GoogleFonts.lato()
+                                          .copyWith(fontSize: 14),
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                        ),
                                       ),
                                     ),
                                   );

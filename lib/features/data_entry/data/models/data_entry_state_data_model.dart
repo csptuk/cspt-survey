@@ -1,4 +1,3 @@
-import 'package:csspt_app/features/data_entry/data/models/data_entry_devotee_model.dart';
 import 'package:csspt_app/features/data_entry/data/models/validators_model.dart';
 import 'package:csspt_app/features/data_entry/domain/entities/data_entry_state_data_entity.dart';
 
@@ -28,7 +27,7 @@ class DataEntryStateDataModel extends DataEntryStateDataEntity {
 
   DataEntryStateDataModel copyWith({
     bool? visualizeData,
-    DataEntryDevoteeModel? data,
+    Map<String, dynamic>? data,
     ValidatorsModel? validators,
     bool? validationFailed,
     bool? submitted,

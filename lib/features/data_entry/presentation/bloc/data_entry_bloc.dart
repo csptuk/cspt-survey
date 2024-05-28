@@ -42,7 +42,6 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
 
   FutureOr<void> loadedEvent(
       LoadedEvent event, Emitter<DataEntryState> emit) async {
-    // emit(DataEntryDupActionState());
     emit(DataEntryLoadedState(stateData: await _initialDataEntryUseCase!()));
   }
 
@@ -53,18 +52,15 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
 
   FutureOr<void> textFieldFocusChangeEvent(
       TextFieldFocusChangeEvent event, Emitter<DataEntryState> emit) async {
-    // emit(DataEntryDupActionState());
-    emit(DataEntryLoadedState(
-        stateData: await _textFieldFocusChangeUseCase!(params: {
+    await _textFieldFocusChangeUseCase!(params: {
       "key": event.key,
       "value": event.value,
       "state_data": event.stateData,
-    })));
+    });
   }
 
   FutureOr<void> radioButtonToggledEvent(
       RadioButtonToggledEvent event, Emitter<DataEntryState> emit) async {
-    // emit(DataEntryDupActionState());
     emit(DataEntryLoadedState(
         stateData: await _radioButtonToggledUseCase!(params: {
       "key": event.key,
@@ -75,7 +71,6 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
 
   FutureOr<void> checkboxSelectedEvent(
       CheckboxSelectedEvent event, Emitter<DataEntryState> emit) async {
-    // emit(DataEntryDupActionState());
     emit(DataEntryLoadedState(
         stateData: await _checkboxSelectedUseCase!(params: {
       "key": event.key,
@@ -86,7 +81,6 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
 
   FutureOr<void> validationFailedEvent(
       ValidationFailedEvent event, Emitter<DataEntryState> emit) async {
-    // emit(DataEntryDupActionState());
     emit(DataEntryLoadedState(
         stateData: await _validationFailedUseCase!(params: {
       "state_data": event.stateData,
@@ -95,7 +89,6 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
 
   FutureOr<void> formSubmittedEvent(
       FormSubmittedEvent event, Emitter<DataEntryState> emit) async {
-    // emit(DataEntryDupActionState());
     emit(DataEntryLoadedState(
         stateData: await _formSubmittedUseCase!(params: {
       "state_data": event.stateData,
@@ -104,7 +97,6 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
 
   FutureOr<void> resetFormEvent(
       ResetFormEvent event, Emitter<DataEntryState> emit) async {
-    // emit(DataEntryDupActionState());
     emit(DataEntryLoadedState(stateData: await _initialDataEntryUseCase!()));
   }
 }

@@ -22,23 +22,16 @@ class InitialDataVisualizeUseCase extends UseCase {
         DataVisualizeColumnModel(title: "Already In Group", value: "in_group"),
         DataVisualizeColumnModel(title: "Join Group", value: "join_group"),
         DataVisualizeColumnModel(
-            title: "Pics for Soc Med",
-            value: "pictures_for_social_media"),
+            title: "Pics for Soc Med", value: "pictures_for_social_media"),
         DataVisualizeColumnModel(title: "Volunteering", value: "volunteering"),
+        DataVisualizeColumnModel(title: "Prep & Org Event", value: "0"),
         DataVisualizeColumnModel(
-            title: "Prep & Org Event",
-            value: "0"),
-        DataVisualizeColumnModel(
-            title: "Prasad Prep / Serve / Inv main",
-            value: "1"),
-        DataVisualizeColumnModel(
-            title: "Fund Raising", value: "2"),
-        DataVisualizeColumnModel(
-            title: "Front Desk", value: "3"),
-        DataVisualizeColumnModel(
-            title: "Soc Media", value: "4"),
+            title: "Prasad Prep / Serve / Inv main", value: "1"),
+        DataVisualizeColumnModel(title: "Fund Raising", value: "2"),
+        DataVisualizeColumnModel(title: "Front Desk", value: "3"),
+        DataVisualizeColumnModel(title: "Soc Media", value: "4"),
       ],
-      data: await _dataVisualizeRepository.fetchLocalDataBaseData(),
+      data: await _dataVisualizeRepository.fetchLocalDatabaseData(),
     );
 
     return stateData;

@@ -1,6 +1,5 @@
 import 'package:csspt_app/constants.dart';
 import 'package:csspt_app/features/data_entry/presentation/views/data_entry_view.dart';
-import 'package:csspt_app/features/data_visualize/presentation/views/data_visualize_view.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatelessWidget {
@@ -48,34 +47,15 @@ class HomeView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // IconButton(
-                      //   onPressed: () {},
-                      //   icon: const Icon(Icons.more_vert_rounded),
-                      // ),
                     ],
                   ),
                 ),
               ),
             ),
           ),
-          // AppBar(
-          //   elevation: 7,
-          //   scrolledUnderElevation: 7,
-          //   centerTitle: true,
-          //   title: Text(
-          //     "Chelmsford Sri Srinivasa Perumal Temple",
-          //     style: kButtonTextStyle,
-          //   ),
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.only(
-          //       bottomLeft: Radius.circular(10),
-          //       bottomRight: Radius.circular(10),
-          //     ),
-          //   ),
-          // ),
+          resizeToAvoidBottomInset: false,
           backgroundColor: kBodyBackgroundColor,
-          // body: DataEntryView(),
-          body: DataVisualizeView(),
+          body: DataEntryView(),
         );
       },
     );
