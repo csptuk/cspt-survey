@@ -19,7 +19,6 @@ class DataEntryRepositoryImplementation implements DataEntryRepository {
 
     DevoteeModel devotee = DevoteeModel.fromJson(devoteeModelJson);
 
-    localHive.devoteeModel!.add(devotee);
-    localHive.devoteeModel!.clear();
+    await localHive.devoteeModel?.add(devotee);
   }
 }

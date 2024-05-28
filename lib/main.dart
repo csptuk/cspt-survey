@@ -1,21 +1,24 @@
 import 'package:csspt_app/devotee_model.dart';
-import 'package:csspt_app/features/data_entry/presentation/views/data_entry_view.dart';
+import 'package:csspt_app/features/home/presentation/views/home_view.dart';
 import 'package:csspt_app/injection_container.dart';
+import 'package:csspt_app/local_hive.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDependencies();
+
   await Hive.initFlutter();
   Hive.registerAdapter(DevoteeModelAdapter());
 
-  await initializeDependencies();
+  await sl.get<LocalHive>().create();
 
-  runApp(const MyApp());
+  runApp(const CSPTSurveyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CSPTSurveyApp extends StatelessWidget {
+  const CSPTSurveyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +44,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: DataEntryView(),
+      home: const SafeArea(
+        child: HomeView(),
       ),
     );
   }

@@ -7,12 +7,14 @@ class DataEntryStateDataModel extends DataEntryStateDataEntity {
     super.data,
     super.validators,
     super.validationFailed,
+    super.submitted,
   });
 
   factory DataEntryStateDataModel.fromJson(Map<String, dynamic> json) {
     return DataEntryStateDataModel(
       data: json["data"],
       validationFailed: json["validation_failed"],
+      submitted: json["submitted"],
     );
   }
 
@@ -20,23 +22,27 @@ class DataEntryStateDataModel extends DataEntryStateDataEntity {
     return {
       "data": data,
       "validation_failed": validationFailed,
+      "submitted": submitted,
     };
   }
 
   DataEntryStateDataModel copyWith({
+    bool? visualizeData,
     DataEntryDevoteeModel? data,
     ValidatorsModel? validators,
     bool? validationFailed,
+    bool? submitted,
   }) {
     return DataEntryStateDataModel(
       data: data ?? this.data,
       validators: validators ?? this.validators,
       validationFailed: validationFailed ?? this.validationFailed,
+      submitted: submitted ?? this.submitted,
     );
   }
 
   @override
   String toString() {
-    return "data: $data, validationFailed: $validationFailed";
+    return "data: $data, validationFailed: $validationFailed, submitted: $submitted";
   }
 }

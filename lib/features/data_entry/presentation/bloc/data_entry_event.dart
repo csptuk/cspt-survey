@@ -11,6 +11,8 @@ class LoadedEvent extends DataEntryEvent {
   const LoadedEvent();
 }
 
+class SwitchToDataVisualizeEvent extends DataEntryEvent {}
+
 class TextFieldFocusChangeEvent extends DataEntryEvent {
   const TextFieldFocusChangeEvent({
     required this.key,
@@ -62,3 +64,6 @@ class FormSubmittedEvent extends DataEntryEvent {
 
   final DataEntryStateDataModel stateData;
 }
+
+class ResetFormEvent extends DataEntryEvent {}
+

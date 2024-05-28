@@ -82,6 +82,7 @@ class InitialDataEntryUseCase extends UseCase {
         },
       ),
       validationFailed: false,
+      submitted: false,
     );
 
     return stateData;

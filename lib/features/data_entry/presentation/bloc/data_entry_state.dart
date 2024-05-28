@@ -6,7 +6,7 @@ abstract class DataEntryState extends Equatable {
   final DataEntryStateDataModel? stateData;
 
   @override
-  List<Object> get props => [stateData!];
+  List<Object> get props => [Random().nextDouble()];
 }
 
 abstract class DataEntryActionState extends DataEntryState {}
@@ -18,5 +18,7 @@ class DataEntryLoadedState extends DataEntryState {
 }
 
 class DataEntrySubmittedState extends DataEntryState {}
+
+class SwitchToDataVisualizeState extends DataEntryState {}
 
 class DataEntryDupActionState extends DataEntryActionState {}

@@ -31,9 +31,9 @@ class CustomTextField extends StatelessWidget {
         if (!hasFocus) {
           onFocusChange(controller.text);
         }
-        // if (focusNode.hasPrimaryFocus) {
-        //   focusNode.children.first.requestFocus();
-        // }
+        if (focusNode.hasPrimaryFocus) {
+          focusNode.children.first.requestFocus();
+        }
       },
       child: TextFormField(
         controller: controller,
@@ -44,7 +44,7 @@ class CustomTextField extends StatelessWidget {
         validator: validator,
         focusNode: FocusNode(debugLabel: "${focusNode.debugLabel}_text"),
         onTapOutside: (_) {
-          // focusNode.unfocus();
+          focusNode.unfocus();
           onFocusChange(controller.text);
         },
         onFieldSubmitted: (_) {

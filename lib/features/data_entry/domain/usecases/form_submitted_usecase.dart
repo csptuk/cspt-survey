@@ -11,9 +11,9 @@ class FormSubmittedUseCase extends UseCase {
   Future call({params}) async {
     DataEntryStateDataModel stateData = params["state_data"];
 
-    stateData = stateData.copyWith(validationFailed: false);
+    await _dataEntryRepository.addDataToLocalRepository(data: stateData.data!);
 
-    _dataEntryRepository.addDataToLocalRepository(data: stateData.data!);
+    stateData = stateData.copyWith(validationFailed: false, submitted: true);
 
     return stateData;
   }

@@ -7,11 +7,13 @@ class DataEntryStateDataEntity extends Equatable {
     this.data,
     this.validators,
     this.validationFailed,
+    this.submitted,
   });
 
   final DataEntryDevoteeModel? data;
   final ValidatorsModel? validators;
   final bool? validationFailed;
+  final bool? submitted;
 
   @override
   List<Object> get props => [];
