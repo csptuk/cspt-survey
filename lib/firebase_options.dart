@@ -85,5 +85,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'cspt-survey.appspot.com',
     measurementId: 'G-R19HJL8BHH',
   );
-
 }

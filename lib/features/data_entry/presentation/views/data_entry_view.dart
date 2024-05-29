@@ -36,8 +36,6 @@ class DataEntryView extends StatelessWidget {
   }
 
   void _blocListener(BuildContext context, DataEntryState state) {
-    debugPrint("listen: DataEntry ${state.runtimeType}");
-
     switch (state.runtimeType) {
       default:
         return;
@@ -45,8 +43,6 @@ class DataEntryView extends StatelessWidget {
   }
 
   Widget _blocBuilder(BuildContext context, DataEntryState state) {
-    debugPrint("build : DataEntry ${state.runtimeType}");
-
     switch (state.runtimeType) {
       case const (DataEntryLoadingState):
         return _buildLoadingView();
@@ -115,13 +111,16 @@ class DataEntryView extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: MultiTouchDetector(
+                    oneTouch: () {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
                     afterTouches: () {
                       _dataEntryBloc.add(SwitchToDataVisualizeEvent());
                     },
                     child: Container(
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage("asserts/cspt_logo.png"),
+                          image: AssetImage("assets/cspt_logo.png"),
                           fit: BoxFit.fitWidth,
                         ),
                       ),

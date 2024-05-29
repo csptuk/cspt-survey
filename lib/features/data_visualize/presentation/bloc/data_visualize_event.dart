@@ -47,26 +47,8 @@ class DeleteDataEntryEvent extends DataVisualizeEvent {
   final DataVisualizeStateDataModel stateData;
 }
 
-class UploadToCloudEvent extends DataVisualizeEvent {
-  const UploadToCloudEvent({
-    required this.stateData,
-  });
+class UploadToCloudEvent extends DataVisualizeEvent {}
 
-  final DataVisualizeStateDataModel stateData;
-}
+class ExportCloudDataToExcelEvent extends DataVisualizeEvent {}
 
-class ExportCloudDataToExcelEvent extends DataVisualizeEvent {
-  const ExportCloudDataToExcelEvent({
-    required this.stateData,
-  });
-
-  final DataVisualizeStateDataModel stateData;
-}
-
-class ExportLocalDataToExcelEvent extends DataVisualizeEvent {
-  const ExportLocalDataToExcelEvent({
-    required this.stateData,
-  });
-
-  final DataVisualizeStateDataModel stateData;
-}
+class ExportLocalDataToExcelEvent extends DataVisualizeEvent {}

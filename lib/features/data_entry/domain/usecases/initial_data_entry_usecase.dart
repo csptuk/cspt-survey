@@ -71,7 +71,7 @@ class InitialDataEntryUseCase extends UseCase {
         },
         mobileNumberValidator: (String? value) {
           final RegExp mobileNumberRegex = RegExp(
-              r'^[\+]?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4,6})$');
+              r'^\+?\d{1,3}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{0,4}$');
 
           if ((value ?? "").trim().isEmpty) {
             return "Mobile No is required";

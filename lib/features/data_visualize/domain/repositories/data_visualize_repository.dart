@@ -8,9 +8,9 @@ abstract class DataVisualizeRepository {
 
   Future<void> deleteData({required int key});
 
-  Future<void> uploadLocalData();
+  Future<String> uploadLocalData();
 
-  Future<void> exportCloudData();
+  Future<String> exportCloudData();
 
-  Future<void> exportLocalData();
+  Future<String> exportLocalData();
 }

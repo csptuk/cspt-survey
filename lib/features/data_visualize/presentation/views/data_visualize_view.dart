@@ -7,6 +7,7 @@ import 'package:csspt_app/helper/string_casting_extension.dart';
 import 'package:csspt_app/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
@@ -32,17 +33,24 @@ class DataVisualizeView extends StatelessWidget {
   }
 
   void _blocListener(BuildContext context, DataVisualizeState state) {
-    debugPrint("listen: DataVisualize ${state.runtimeType}");
-
     switch (state.runtimeType) {
+      case const (DataVisualizeSuccessfulActionState):
+        Fluttertoast.showToast(
+          msg: state.msg!,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.grey,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+        return;
+
       default:
         return;
     }
   }
 
   Widget _blocBuilder(BuildContext context, DataVisualizeState state) {
-    debugPrint("build : DataVisualize ${state.runtimeType}");
-
     switch (state.runtimeType) {
       case const (DataVisualizeLoadingState):
         return _buildLoadingView();
@@ -128,8 +136,7 @@ class DataVisualizeView extends StatelessWidget {
                                   ),
                                 ),
                                 onPressed: () {
-                                  _dataVisualizeBloc.add(
-                                      UploadToCloudEvent(stateData: stateData));
+                                  _dataVisualizeBloc.add(UploadToCloudEvent());
                                 },
                                 child: Text(
                                   "Upload Data",
@@ -146,9 +153,8 @@ class DataVisualizeView extends StatelessWidget {
                                   ),
                                 ),
                                 onPressed: () {
-                                  _dataVisualizeBloc.add(
-                                      ExportCloudDataToExcelEvent(
-                                          stateData: stateData));
+                                  _dataVisualizeBloc
+                                      .add(ExportCloudDataToExcelEvent());
                                 },
                                 child: Text(
                                   "Export Cloud Data",
@@ -165,9 +171,8 @@ class DataVisualizeView extends StatelessWidget {
                                   ),
                                 ),
                                 onPressed: () {
-                                  _dataVisualizeBloc.add(
-                                      ExportLocalDataToExcelEvent(
-                                          stateData: stateData));
+                                  _dataVisualizeBloc
+                                      .add(ExportLocalDataToExcelEvent());
                                 },
                                 child: Text(
                                   "Export Local Data",
@@ -201,6 +206,7 @@ class DataVisualizeView extends StatelessWidget {
                             columnCount: columns.length,
                             rowCount: data.length + 1,
                             pinnedRowCount: 1,
+                            pinnedColumnCount: 1,
                             columnBuilder: (int index) {
                               return const TableSpan(
                                 backgroundDecoration: TableSpanDecoration(
@@ -264,43 +270,46 @@ class DataVisualizeView extends StatelessWidget {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          if (data[vicinity.row - 1]
-                                                  ["edit_state"] ==
-                                              false) {
-                                            _dataVisualizeBloc.add(
-                                                EditDataEntryEvent(
-                                                    key: data[vicinity.row - 1]
-                                                        ["key"],
-                                                    stateData: stateData));
-                                          } else {
-                                            _dataVisualizeBloc.add(
-                                                SaveDataEntryEvent(
-                                                    key: data[vicinity.row - 1]
-                                                        ["key"],
-                                                    texts: controllers
-                                                        .map((e) => e.text)
-                                                        .toList(),
-                                                    stateData: stateData));
-                                          }
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFFFFFF07),
-                                            shape: BoxShape.circle,
-                                            boxShadow: kBoxShadowList,
-                                          ),
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(2.0),
-                                            child: Icon(Icons
-                                                .mode_edit_outline_outlined),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 15.0,
-                                      ),
+                                      // GestureDetector(
+                                      //   onTap: () {
+                                      //     if (data[vicinity.row - 1]
+                                      //             ["edit_state"] ==
+                                      //         false) {
+                                      //       _dataVisualizeBloc.add(
+                                      //           EditDataEntryEvent(
+                                      //               key: data[vicinity.row - 1]
+                                      //                   ["key"],
+                                      //               stateData: stateData));
+                                      //     } else {
+                                      //       _dataVisualizeBloc.add(
+                                      //           SaveDataEntryEvent(
+                                      //               key: data[vicinity.row - 1]
+                                      //                   ["key"],
+                                      //               texts: controllers
+                                      //                   .map((e) => e.text)
+                                      //                   .toList(),
+                                      //               stateData: stateData));
+                                      //     }
+                                      //   },
+                                      //   child: Container(
+                                      //     decoration: BoxDecoration(
+                                      //       color: !data[vicinity.row - 1]
+                                      //               ["edit_state"]
+                                      //           ? Color(0xFFFFFF07)
+                                      //           : Colors.green,
+                                      //       shape: BoxShape.circle,
+                                      //       boxShadow: kBoxShadowList,
+                                      //     ),
+                                      //     child: const Padding(
+                                      //       padding: EdgeInsets.all(2.0),
+                                      //       child: Icon(Icons
+                                      //           .mode_edit_outline_outlined),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      // const SizedBox(
+                                      //   width: 15.0,
+                                      // ),
                                       GestureDetector(
                                         onTap: () {
                                           _dataVisualizeBloc.add(

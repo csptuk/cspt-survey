@@ -29,7 +29,7 @@ class DevoteeModelAdapter extends TypeAdapter<DevoteeModel> {
       volunteering: fields[9] as String?,
       volunteeringService: (fields[10] as List?)
           ?.map((dynamic e) => (e as Map).cast<String, dynamic>())
-          ?.toList(),
+          .toList(),
       sendToCloud: fields[11] as bool?,
     );
   }

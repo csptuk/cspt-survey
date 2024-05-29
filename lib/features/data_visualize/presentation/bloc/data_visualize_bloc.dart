@@ -84,19 +84,19 @@ class DataVisualizeBloc extends Bloc<DataVisualizeEvent, DataVisualizeState> {
 
   FutureOr<void> uploadToCloudEvent(
       UploadToCloudEvent event, Emitter<DataVisualizeState> emit) async {
-    await _uploadLocalDataVisualizeUseCase!(
-        params: {"state_data": event.stateData});
+    emit(DataVisualizeSuccessfulActionState(
+        msg: await _uploadLocalDataVisualizeUseCase!()));
   }
 
   FutureOr<void> exportCloudDataToExcelEvent(ExportCloudDataToExcelEvent event,
       Emitter<DataVisualizeState> emit) async {
-    await _exportCloudDataVisualizeUseCase!(
-        params: {"state_data": event.stateData});
+    emit(DataVisualizeSuccessfulActionState(
+        msg: await _exportCloudDataVisualizeUseCase!()));
   }
 
   FutureOr<void> exportLocalDataToExcelEvent(ExportLocalDataToExcelEvent event,
       Emitter<DataVisualizeState> emit) async {
-    await _exportLocalDataVisualizeUseCase!(
-        params: {"state_data": event.stateData});
+    emit(DataVisualizeSuccessfulActionState(
+        msg: await _exportLocalDataVisualizeUseCase!()));
   }
 }
