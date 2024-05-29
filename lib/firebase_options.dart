@@ -51,11 +51,11 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDfVPBKGxTHlxZSQqXPJhoRXnZqma2THKs',
-    appId: '1:429756858361:android:32511e067954f23afc8728',
-    messagingSenderId: '429756858361',
-    projectId: 'cspt-survey',
-    storageBucket: 'cspt-survey.appspot.com',
+    apiKey: 'AIzaSyC27MPg7LmVqUBSvJ96b092tu-50CGE4CU',
+    appId: '1:70663231893:android:bc3857a550c391bf41fe9c',
+    messagingSenderId: '70663231893',
+    projectId: 'cspt-survey-5148c',
+    storageBucket: 'cspt-survey-5148c.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(

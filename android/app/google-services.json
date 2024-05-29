@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "429756858361",
-    "project_id": "cspt-survey",
-    "storage_bucket": "cspt-survey.appspot.com"
+    "project_number": "70663231893",
+    "project_id": "cspt-survey-5148c",
+    "storage_bucket": "cspt-survey-5148c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:429756858361:android:32511e067954f23afc8728",
+        "mobilesdk_app_id": "1:70663231893:android:bc3857a550c391bf41fe9c",
         "android_client_info": {
           "package_name": "com.example.csspt_app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDfVPBKGxTHlxZSQqXPJhoRXnZqma2THKs"
+          "current_key": "AIzaSyC27MPg7LmVqUBSvJ96b092tu-50CGE4CU"
         }
       ],
       "services": {

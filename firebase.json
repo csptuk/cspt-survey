@@ -3,8 +3,8 @@
     "platforms": {
       "android": {
         "default": {
-          "projectId": "cspt-survey",
-          "appId": "1:429756858361:android:32511e067954f23afc8728",
+          "projectId": "cspt-survey-5148c",
+          "appId": "1:70663231893:android:bc3857a550c391bf41fe9c",
           "fileOutput": "android/app/google-services.json"
         }
       },
@@ -26,9 +26,9 @@
       },
       "dart": {
         "lib/firebase_options.dart": {
-          "projectId": "cspt-survey",
+          "projectId": "cspt-survey-5148c",
           "configurations": {
-            "android": "1:429756858361:android:32511e067954f23afc8728"
+            "android": "1:70663231893:android:bc3857a550c391bf41fe9c"
           }
         }
       }
