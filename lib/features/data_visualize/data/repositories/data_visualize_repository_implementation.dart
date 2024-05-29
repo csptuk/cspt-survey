@@ -80,11 +80,93 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
     List<Map<String, dynamic>> cloudData =
         localData.map((e) => DevoteeModel.fromJson(e).toJson()).toList();
 
-    print(cloudData);
+    CollectionReference ref = firestore.collection("devotees");
+    for (var doc in cloudData) {
+      await ref.add(doc.cast<String, dynamic>());
+    }
   }
 
   @override
-  Future<void> exportCloudData() async {}
+  Future<void> exportCloudData() async {
+    CollectionReference ref = firestore.collection("devotees");
+    QuerySnapshot snapshot = await ref.get();
+
+    final List<Map<String, dynamic>> cloudData = snapshot.docs
+        .map((doc) => doc.data())
+        .toList()
+        .cast<Map<String, dynamic>>();
+
+    Excel excel = Excel.createExcel();
+
+    excel.rename("Sheet1", "Devotee");
+    Sheet sheetObject = excel["Devotee"];
+
+    List<DataVisualizeColumnModel> columns = const [
+      DataVisualizeColumnModel(title: "Date", value: "date"),
+      DataVisualizeColumnModel(title: "Id", value: "id"),
+      DataVisualizeColumnModel(title: "First Name", value: "first_name"),
+      DataVisualizeColumnModel(title: "Last Name", value: "last_name"),
+      DataVisualizeColumnModel(title: "Email", value: "email"),
+      DataVisualizeColumnModel(title: "Mobile Number", value: "mobile_number"),
+      DataVisualizeColumnModel(title: "Already In Group", value: "in_group"),
+      DataVisualizeColumnModel(title: "Join Group", value: "join_group"),
+      DataVisualizeColumnModel(
+          title: "Pics For Social Media", value: "pictures_for_social_media"),
+      DataVisualizeColumnModel(title: "Volunteering", value: "volunteering"),
+      DataVisualizeColumnModel(title: "Prep & Org Event", value: "0"),
+      DataVisualizeColumnModel(
+          title: "Prasad Prep / Serve / Inv main", value: "1"),
+      DataVisualizeColumnModel(title: "Fund Raising", value: "2"),
+      DataVisualizeColumnModel(title: "Front Desk", value: "3"),
+      DataVisualizeColumnModel(title: "Social Media", value: "4"),
+    ];
+
+    int column = 0;
+    int row = 0;
+    while (row <= cloudData.length) {
+      column = 0;
+      if (row == 0) {
+        for (var field in columns) {
+          var cell = sheetObject.cell(
+              CellIndex.indexByColumnRow(columnIndex: column, rowIndex: row));
+          cell.value = TextCellValue(field.title!);
+          column++;
+        }
+      } else {
+        for (var field in columns) {
+          var cell = sheetObject.cell(
+              CellIndex.indexByColumnRow(columnIndex: column, rowIndex: row));
+          if (int.tryParse(field.value!) == null) {
+            cell.value = TextCellValue(field.value != "id"
+                ? cloudData[row - 1][field.value].toString().toTitleCase()
+                : cloudData[row - 1][field.value].toString());
+          } else {
+            cell.value = TextCellValue(cloudData[row - 1]
+                    ["volunteering_service"][int.parse(field.value!)]["value"]
+                .toString()
+                .toTitleCase());
+          }
+          column++;
+        }
+      }
+      row++;
+    }
+
+    await Permission.storage.request();
+
+    final directory = await getDownloadsDirectory();
+
+    String fileName =
+        "CSPT-Survey-cloud-${DateFormat("yyyy-MM-dd").format(DateTime.now())}.xlsx";
+
+    String path = "${directory!.path}/$fileName";
+
+    List<int> excelFileBytes = excel.save(fileName: fileName)!;
+
+    File(path)
+      ..createSync(recursive: true)
+      ..writeAsBytesSync(excelFileBytes);
+  }
 
   @override
   Future<void> exportLocalData() async {
@@ -130,8 +212,9 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
           var cell = sheetObject.cell(
               CellIndex.indexByColumnRow(columnIndex: column, rowIndex: row));
           if (int.tryParse(field.value!) == null) {
-            cell.value = TextCellValue(
-                localData[row - 1][field.value].toString().toTitleCase());
+            cell.value = TextCellValue(field.value != "id"
+                ? localData[row - 1][field.value].toString().toTitleCase()
+                : localData[row - 1][field.value].toString());
           } else {
             cell.value = TextCellValue(localData[row - 1]
                     ["volunteering_service"][int.parse(field.value!)]["value"]
@@ -149,7 +232,7 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
     final directory = await getDownloadsDirectory();
 
     String fileName =
-        "CSPT-Survey-${DateFormat("yyyy-MM-dd").format(DateTime.now())}.xlsx";
+        "CSPT-Survey-local-${DateFormat("yyyy-MM-dd").format(DateTime.now())}.xlsx";
 
     String path = "${directory!.path}/$fileName";
 
