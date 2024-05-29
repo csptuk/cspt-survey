@@ -7,4 +7,10 @@ abstract class DataVisualizeRepository {
       required Map<String, dynamic> row});
 
   Future<void> deleteData({required int key});
+
+  Future<void> uploadLocalData();
+
+  Future<void> exportCloudData();
+
+  Future<void> exportLocalData();
 }

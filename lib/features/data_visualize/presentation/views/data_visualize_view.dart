@@ -127,7 +127,10 @@ class DataVisualizeView extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(7.0),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  _dataVisualizeBloc.add(
+                                      UploadToCloudEvent(stateData: stateData));
+                                },
                                 child: Text(
                                   "Upload Data",
                                   style: kLabelTextStyle,
@@ -142,7 +145,11 @@ class DataVisualizeView extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(7.0),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  _dataVisualizeBloc.add(
+                                      ExportCloudDataToExcelEvent(
+                                          stateData: stateData));
+                                },
                                 child: Text(
                                   "Export Cloud Data",
                                   style: kLabelTextStyle,
@@ -157,7 +164,11 @@ class DataVisualizeView extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(7.0),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  _dataVisualizeBloc.add(
+                                      ExportLocalDataToExcelEvent(
+                                          stateData: stateData));
+                                },
                                 child: Text(
                                   "Export Local Data",
                                   style: kLabelTextStyle,
