@@ -13,7 +13,7 @@ class CheckboxSelectedUseCase extends UseCase {
     List<Map<String, dynamic>> services =
         stateData.data!["volunteering_service"]!;
     services.firstWhere((e) => e["title"] == key)["value"] =
-        value == true ? "Yes" : "";
+        value == true ? "yes" : "";
 
     stateData.data!["volunteering_service"] = services;
 

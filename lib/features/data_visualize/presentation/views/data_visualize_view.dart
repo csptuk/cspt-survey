@@ -350,7 +350,8 @@ class DataVisualizeView extends StatelessWidget {
                                               int.parse(columns[vicinity.column]
                                                   .value!)]["value"] ??
                                           "")
-                                      .toString();
+                                      .toString()
+                                      .toTitleCase();
                                 }
 
                                 if (vicinity.column == 1 ||

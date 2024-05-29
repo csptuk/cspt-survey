@@ -520,7 +520,7 @@ class DataEntryView extends StatelessWidget {
                                                 value:
                                                     data["volunteering_service"]
                                                             [index]["value"] ==
-                                                        "Yes",
+                                                        "yes",
                                                 onChanged: (value) {
                                                   checkboxToggleHelper(
                                                       data["volunteering_service"]

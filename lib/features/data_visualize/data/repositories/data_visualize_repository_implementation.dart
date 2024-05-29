@@ -100,6 +100,7 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
       localHive.devoteeModel!.put(
           localData.firstWhere((ele) => ele["id"] == e["id"])["key"],
           DevoteeModel.fromJson(e));
+      e.remove("send_to_cloud");
     }
 
     CollectionReference ref = firestore.collection("devotees");
@@ -132,7 +133,7 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
 
     await _exportToExcel(
       data: cloudData,
-      isCloud: false,
+      isCloud: true,
     );
 
     return "Exported Cloud Data";
@@ -217,7 +218,7 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
 
     await Permission.storage.request();
 
-    final directory = await getDownloadsDirectory();
+    final directory = await getExternalStorageDirectory();
 
     String fileName =
         "CSPT-Survey-${isCloud ? "cloud" : "local"}-${DateFormat("yyyy-MM-dd").format(DateTime.now())}.xlsx";
