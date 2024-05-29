@@ -15,6 +15,7 @@ class DataVisualizeDevoteeEntity extends Equatable {
     this.volunteering,
     this.volunteeringService,
     this.editState,
+    this.sendToCloud,
   });
 
   final int? key;
@@ -30,6 +31,7 @@ class DataVisualizeDevoteeEntity extends Equatable {
   final String? volunteering;
   final List<Map<String, dynamic>>? volunteeringService;
   final bool? editState;
+  final bool? sendToCloud;
 
   @override
   List<Object> get props => [];

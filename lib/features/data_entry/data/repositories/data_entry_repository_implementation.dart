@@ -15,6 +15,7 @@ class DataEntryRepositoryImplementation implements DataEntryRepository {
 
     devoteeModelJson["date"] = DateTime.now();
     devoteeModelJson["id"] = const Uuid().v4();
+    devoteeModelJson["send_to_cloud"] = true;
 
     DevoteeModel devotee = DevoteeModel.fromJson(devoteeModelJson);
 

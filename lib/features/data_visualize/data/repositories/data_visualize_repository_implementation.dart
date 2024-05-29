@@ -61,6 +61,7 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
               picturesForSocialMedia: texts[6],
               volunteering: texts[7],
               volunteeringService: volunteeringService,
+              sendToCloud: true,
             )
             .toJson());
 
@@ -80,6 +81,15 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
     List<Map<String, dynamic>> cloudData =
         localData.map((e) => DevoteeModel.fromJson(e).toJson()).toList();
 
+    cloudData = cloudData.where((e) => e["send_to_cloud"] == true).toList();
+
+    for (var e in cloudData) {
+      e["send_to_cloud"] = false;
+      localHive.devoteeModel!.put(
+          localData.firstWhere((ele) => ele["id"] == e["id"])["key"],
+          DevoteeModel.fromJson(e));
+    }
+
     CollectionReference ref = firestore.collection("devotees");
     for (var doc in cloudData) {
       await ref.add(doc.cast<String, dynamic>());
@@ -96,80 +106,165 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
         .toList()
         .cast<Map<String, dynamic>>();
 
-    Excel excel = Excel.createExcel();
+    await _exportToExcel(
+      data: cloudData,
+      isCloud: false,
+    );
 
-    excel.rename("Sheet1", "Devotee");
-    Sheet sheetObject = excel["Devotee"];
-
-    List<DataVisualizeColumnModel> columns = const [
-      DataVisualizeColumnModel(title: "Date", value: "date"),
-      DataVisualizeColumnModel(title: "Id", value: "id"),
-      DataVisualizeColumnModel(title: "First Name", value: "first_name"),
-      DataVisualizeColumnModel(title: "Last Name", value: "last_name"),
-      DataVisualizeColumnModel(title: "Email", value: "email"),
-      DataVisualizeColumnModel(title: "Mobile Number", value: "mobile_number"),
-      DataVisualizeColumnModel(title: "Already In Group", value: "in_group"),
-      DataVisualizeColumnModel(title: "Join Group", value: "join_group"),
-      DataVisualizeColumnModel(
-          title: "Pics For Social Media", value: "pictures_for_social_media"),
-      DataVisualizeColumnModel(title: "Volunteering", value: "volunteering"),
-      DataVisualizeColumnModel(title: "Prep & Org Event", value: "0"),
-      DataVisualizeColumnModel(
-          title: "Prasad Prep / Serve / Inv main", value: "1"),
-      DataVisualizeColumnModel(title: "Fund Raising", value: "2"),
-      DataVisualizeColumnModel(title: "Front Desk", value: "3"),
-      DataVisualizeColumnModel(title: "Social Media", value: "4"),
-    ];
-
-    int column = 0;
-    int row = 0;
-    while (row <= cloudData.length) {
-      column = 0;
-      if (row == 0) {
-        for (var field in columns) {
-          var cell = sheetObject.cell(
-              CellIndex.indexByColumnRow(columnIndex: column, rowIndex: row));
-          cell.value = TextCellValue(field.title!);
-          column++;
-        }
-      } else {
-        for (var field in columns) {
-          var cell = sheetObject.cell(
-              CellIndex.indexByColumnRow(columnIndex: column, rowIndex: row));
-          if (int.tryParse(field.value!) == null) {
-            cell.value = TextCellValue(field.value != "id"
-                ? cloudData[row - 1][field.value].toString().toTitleCase()
-                : cloudData[row - 1][field.value].toString());
-          } else {
-            cell.value = TextCellValue(cloudData[row - 1]
-                    ["volunteering_service"][int.parse(field.value!)]["value"]
-                .toString()
-                .toTitleCase());
-          }
-          column++;
-        }
-      }
-      row++;
-    }
-
-    await Permission.storage.request();
-
-    final directory = await getDownloadsDirectory();
-
-    String fileName =
-        "CSPT-Survey-cloud-${DateFormat("yyyy-MM-dd").format(DateTime.now())}.xlsx";
-
-    String path = "${directory!.path}/$fileName";
-
-    List<int> excelFileBytes = excel.save(fileName: fileName)!;
-
-    File(path)
-      ..createSync(recursive: true)
-      ..writeAsBytesSync(excelFileBytes);
+    // Excel excel = Excel.createExcel();
+    //
+    // excel.rename("Sheet1", "Devotee");
+    // Sheet sheetObject = excel["Devotee"];
+    //
+    // List<DataVisualizeColumnModel> columns = const [
+    //   DataVisualizeColumnModel(title: "Date", value: "date"),
+    //   DataVisualizeColumnModel(title: "Id", value: "id"),
+    //   DataVisualizeColumnModel(title: "First Name", value: "first_name"),
+    //   DataVisualizeColumnModel(title: "Last Name", value: "last_name"),
+    //   DataVisualizeColumnModel(title: "Email", value: "email"),
+    //   DataVisualizeColumnModel(title: "Mobile Number", value: "mobile_number"),
+    //   DataVisualizeColumnModel(title: "Already In Group", value: "in_group"),
+    //   DataVisualizeColumnModel(title: "Join Group", value: "join_group"),
+    //   DataVisualizeColumnModel(
+    //       title: "Pics For Social Media", value: "pictures_for_social_media"),
+    //   DataVisualizeColumnModel(title: "Volunteering", value: "volunteering"),
+    //   DataVisualizeColumnModel(title: "Prep & Org Event", value: "0"),
+    //   DataVisualizeColumnModel(
+    //       title: "Prasad Prep / Serve / Inv main", value: "1"),
+    //   DataVisualizeColumnModel(title: "Fund Raising", value: "2"),
+    //   DataVisualizeColumnModel(title: "Front Desk", value: "3"),
+    //   DataVisualizeColumnModel(title: "Social Media", value: "4"),
+    // ];
+    //
+    // int column = 0;
+    // int row = 0;
+    // while (row <= cloudData.length) {
+    //   column = 0;
+    //   if (row == 0) {
+    //     for (var field in columns) {
+    //       var cell = sheetObject.cell(
+    //           CellIndex.indexByColumnRow(columnIndex: column, rowIndex: row));
+    //       cell.value = TextCellValue(field.title!);
+    //       column++;
+    //     }
+    //   } else {
+    //     for (var field in columns) {
+    //       var cell = sheetObject.cell(
+    //           CellIndex.indexByColumnRow(columnIndex: column, rowIndex: row));
+    //       if (int.tryParse(field.value!) == null) {
+    //         cell.value = TextCellValue(field.value != "id"
+    //             ? cloudData[row - 1][field.value].toString().toTitleCase()
+    //             : cloudData[row - 1][field.value].toString());
+    //       } else {
+    //         cell.value = TextCellValue(cloudData[row - 1]
+    //                 ["volunteering_service"][int.parse(field.value!)]["value"]
+    //             .toString()
+    //             .toTitleCase());
+    //       }
+    //       column++;
+    //     }
+    //   }
+    //   row++;
+    // }
+    //
+    // await Permission.storage.request();
+    //
+    // final directory = await getDownloadsDirectory();
+    //
+    // String fileName =
+    //     "CSPT-Survey-cloud-${DateFormat("yyyy-MM-dd").format(DateTime.now())}.xlsx";
+    //
+    // String path = "${directory!.path}/$fileName";
+    //
+    // List<int> excelFileBytes = excel.save(fileName: fileName)!;
+    //
+    // File(path)
+    //   ..createSync(recursive: true)
+    //   ..writeAsBytesSync(excelFileBytes);
   }
 
   @override
   Future<void> exportLocalData() async {
+    await _exportToExcel(
+      data: await fetchLocalDatabaseData(),
+      isCloud: false,
+    );
+
+    // Excel excel = Excel.createExcel();
+    //
+    // excel.rename("Sheet1", "Devotee");
+    // Sheet sheetObject = excel["Devotee"];
+    //
+    // List<DataVisualizeColumnModel> columns = const [
+    //   DataVisualizeColumnModel(title: "Date", value: "date"),
+    //   DataVisualizeColumnModel(title: "Id", value: "id"),
+    //   DataVisualizeColumnModel(title: "First Name", value: "first_name"),
+    //   DataVisualizeColumnModel(title: "Last Name", value: "last_name"),
+    //   DataVisualizeColumnModel(title: "Email", value: "email"),
+    //   DataVisualizeColumnModel(title: "Mobile Number", value: "mobile_number"),
+    //   DataVisualizeColumnModel(title: "Already In Group", value: "in_group"),
+    //   DataVisualizeColumnModel(title: "Join Group", value: "join_group"),
+    //   DataVisualizeColumnModel(
+    //       title: "Pics For Social Media", value: "pictures_for_social_media"),
+    //   DataVisualizeColumnModel(title: "Volunteering", value: "volunteering"),
+    //   DataVisualizeColumnModel(title: "Prep & Org Event", value: "0"),
+    //   DataVisualizeColumnModel(
+    //       title: "Prasad Prep / Serve / Inv main", value: "1"),
+    //   DataVisualizeColumnModel(title: "Fund Raising", value: "2"),
+    //   DataVisualizeColumnModel(title: "Front Desk", value: "3"),
+    //   DataVisualizeColumnModel(title: "Social Media", value: "4"),
+    // ];
+    // List<Map<String, dynamic>> localData = await fetchLocalDatabaseData();
+    //
+    // int column = 0;
+    // int row = 0;
+    // while (row <= localData.length) {
+    //   column = 0;
+    //   if (row == 0) {
+    //     for (var field in columns) {
+    //       var cell = sheetObject.cell(
+    //           CellIndex.indexByColumnRow(columnIndex: column, rowIndex: row));
+    //       cell.value = TextCellValue(field.title!);
+    //       column++;
+    //     }
+    //   } else {
+    //     for (var field in columns) {
+    //       var cell = sheetObject.cell(
+    //           CellIndex.indexByColumnRow(columnIndex: column, rowIndex: row));
+    //       if (int.tryParse(field.value!) == null) {
+    //         cell.value = TextCellValue(field.value != "id"
+    //             ? localData[row - 1][field.value].toString().toTitleCase()
+    //             : localData[row - 1][field.value].toString());
+    //       } else {
+    //         cell.value = TextCellValue(localData[row - 1]
+    //                 ["volunteering_service"][int.parse(field.value!)]["value"]
+    //             .toString()
+    //             .toTitleCase());
+    //       }
+    //       column++;
+    //     }
+    //   }
+    //   row++;
+    // }
+    //
+    // await Permission.storage.request();
+    //
+    // final directory = await getDownloadsDirectory();
+    //
+    // String fileName =
+    //     "CSPT-Survey-local-${DateFormat("yyyy-MM-dd").format(DateTime.now())}.xlsx";
+    //
+    // String path = "${directory!.path}/$fileName";
+    //
+    // List<int> excelFileBytes = excel.save(fileName: fileName)!;
+    //
+    // File(path)
+    //   ..createSync(recursive: true)
+    //   ..writeAsBytesSync(excelFileBytes);
+  }
+
+  Future<void> _exportToExcel(
+      {required List<Map<String, dynamic>> data, required bool isCloud}) async {
     Excel excel = Excel.createExcel();
 
     excel.rename("Sheet1", "Devotee");
@@ -194,11 +289,10 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
       DataVisualizeColumnModel(title: "Front Desk", value: "3"),
       DataVisualizeColumnModel(title: "Social Media", value: "4"),
     ];
-    List<Map<String, dynamic>> localData = await fetchLocalDatabaseData();
 
     int column = 0;
     int row = 0;
-    while (row <= localData.length) {
+    while (row <= data.length) {
       column = 0;
       if (row == 0) {
         for (var field in columns) {
@@ -213,11 +307,11 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
               CellIndex.indexByColumnRow(columnIndex: column, rowIndex: row));
           if (int.tryParse(field.value!) == null) {
             cell.value = TextCellValue(field.value != "id"
-                ? localData[row - 1][field.value].toString().toTitleCase()
-                : localData[row - 1][field.value].toString());
+                ? data[row - 1][field.value].toString().toTitleCase()
+                : data[row - 1][field.value].toString());
           } else {
-            cell.value = TextCellValue(localData[row - 1]
-                    ["volunteering_service"][int.parse(field.value!)]["value"]
+            cell.value = TextCellValue(data[row - 1]["volunteering_service"]
+                    [int.parse(field.value!)]["value"]
                 .toString()
                 .toTitleCase());
           }
@@ -232,7 +326,7 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
     final directory = await getDownloadsDirectory();
 
     String fileName =
-        "CSPT-Survey-local-${DateFormat("yyyy-MM-dd").format(DateTime.now())}.xlsx";
+        "CSPT-Survey-${isCloud ? "cloud" : "local"}-${DateFormat("yyyy-MM-dd").format(DateTime.now())}.xlsx";
 
     String path = "${directory!.path}/$fileName";
 

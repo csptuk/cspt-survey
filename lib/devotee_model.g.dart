@@ -30,13 +30,14 @@ class DevoteeModelAdapter extends TypeAdapter<DevoteeModel> {
       volunteeringService: (fields[10] as List?)
           ?.map((dynamic e) => (e as Map).cast<String, dynamic>())
           ?.toList(),
+      sendToCloud: fields[11] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, DevoteeModel obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.date)
       ..writeByte(1)
@@ -58,7 +59,9 @@ class DevoteeModelAdapter extends TypeAdapter<DevoteeModel> {
       ..writeByte(9)
       ..write(obj.volunteering)
       ..writeByte(10)
-      ..write(obj.volunteeringService);
+      ..write(obj.volunteeringService)
+      ..writeByte(11)
+      ..write(obj.sendToCloud);
   }
 
   @override

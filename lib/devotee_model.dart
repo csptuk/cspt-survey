@@ -16,6 +16,7 @@ class DevoteeModel {
     this.picturesForSocialMedia,
     this.volunteering,
     this.volunteeringService,
+    this.sendToCloud,
   });
 
   @HiveField(0)
@@ -51,6 +52,9 @@ class DevoteeModel {
   @HiveField(10)
   List<Map<String, dynamic>>? volunteeringService;
 
+  @HiveField(11)
+  bool? sendToCloud;
+
   factory DevoteeModel.fromJson(Map<String, dynamic> json) {
     return DevoteeModel(
       date: json["date"],
@@ -64,6 +68,7 @@ class DevoteeModel {
       picturesForSocialMedia: json["pictures_for_social_media"],
       volunteering: json["volunteering"],
       volunteeringService: json["volunteering_service"],
+      sendToCloud: json["send_to_cloud"],
     );
   }
 
@@ -80,11 +85,12 @@ class DevoteeModel {
       "pictures_for_social_media": picturesForSocialMedia,
       "volunteering": volunteering,
       "volunteering_service": volunteeringService,
+      "send_to_cloud": sendToCloud,
     };
   }
 
   @override
   String toString() {
-    return "date: $date, id: $id, firstName: $firstName, lastName: $lastName, email: $email, mobileNumber: $mobileNumber, inGroup: $inGroup, joinGroup: $joinGroup, picturesForSocialMedia: $picturesForSocialMedia, volunteering: $volunteering, volunteeringService: $volunteeringService";
+    return "date: $date, id: $id, firstName: $firstName, lastName: $lastName, email: $email, mobileNumber: $mobileNumber, inGroup: $inGroup, joinGroup: $joinGroup, picturesForSocialMedia: $picturesForSocialMedia, volunteering: $volunteering, volunteeringService: $volunteeringService, sendToCloud: $sendToCloud";
   }
 }

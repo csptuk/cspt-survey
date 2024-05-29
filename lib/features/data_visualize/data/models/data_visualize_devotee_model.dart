@@ -15,6 +15,7 @@ class DataVisualizeDevoteeModel extends DataVisualizeDevoteeEntity {
     super.volunteering,
     super.volunteeringService,
     super.editState,
+    super.sendToCloud,
   });
 
   factory DataVisualizeDevoteeModel.fromJson(Map<String, dynamic> json) {
@@ -32,6 +33,7 @@ class DataVisualizeDevoteeModel extends DataVisualizeDevoteeEntity {
       volunteering: json["volunteering"],
       volunteeringService: json["volunteering_service"],
       editState: json["edit_state"],
+      sendToCloud: json["send_to_cloud"],
     );
   }
 
@@ -50,6 +52,7 @@ class DataVisualizeDevoteeModel extends DataVisualizeDevoteeEntity {
       "volunteering": volunteering,
       "volunteering_service": volunteeringService,
       "edit_state": editState,
+      "send_to_cloud": sendToCloud,
     };
   }
 
@@ -67,6 +70,7 @@ class DataVisualizeDevoteeModel extends DataVisualizeDevoteeEntity {
     String? volunteering,
     List<Map<String, dynamic>>? volunteeringService,
     bool? editState,
+    bool? sendToCloud,
   }) {
     return DataVisualizeDevoteeModel(
       key: key ?? this.key,
@@ -83,11 +87,12 @@ class DataVisualizeDevoteeModel extends DataVisualizeDevoteeEntity {
       volunteering: volunteering ?? this.volunteering,
       volunteeringService: volunteeringService ?? this.volunteeringService,
       editState: editState ?? this.editState,
+      sendToCloud: sendToCloud ?? this.sendToCloud,
     );
   }
 
   @override
   String toString() {
-    return "key: $key, date: $date, id: $id, firstName: $firstName, lastName: $lastName, email: $email, mobileNumber: $mobileNumber, inGroup: $inGroup, joinGroup: $joinGroup, picturesForSocialMedia: $picturesForSocialMedia, volunteering: $volunteering, volunteeringService: $volunteeringService, editState: $editState";
+    return "key: $key, date: $date, id: $id, firstName: $firstName, lastName: $lastName, email: $email, mobileNumber: $mobileNumber, inGroup: $inGroup, joinGroup: $joinGroup, picturesForSocialMedia: $picturesForSocialMedia, volunteering: $volunteering, volunteeringService: $volunteeringService, editState: $editState, sendToCloud: $sendToCloud";
   }
 }
