@@ -475,7 +475,6 @@ class DataEntryView extends StatelessWidget {
                                 Animate(
                                   effects: const [
                                     SlideEffect(
-                                      delay: Duration(milliseconds: 10),
                                       duration: Duration(milliseconds: 500),
                                       curve: Curves.decelerate,
                                       begin: Offset(1, 0),
@@ -540,7 +539,36 @@ class DataEntryView extends StatelessWidget {
                                   height: 20.0,
                                 ),
                               Animate(
-                                // key: UniqueKey(),
+                                effects: [
+                                  if (data["in_group"] != "no")
+                                    const SlideEffect(
+                                      duration: Duration(milliseconds: 500),
+                                      curve: Curves.decelerate,
+                                      begin: Offset(0, 1),
+                                    ),
+                                ],
+                                child: CustomContainer(
+                                  child: CustomCheckboxListTile(
+                                    title:
+                                        "We need your consent to collect and process your data in accordance with our Temple Privacy Policy and Terms of Service.",
+                                    value: stateData.consent!,
+                                    onChanged: (value) {
+                                      _dataEntryBloc.add(
+                                          ConsentCheckboxSelectedEvent(
+                                              value: value,
+                                              stateData: stateData));
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20.0,
+                              ),
+                              Animate(
+                                // key: !stateData.validationFailed!
+                                //     ? const Key("0")
+                                //     : UniqueKey(),
+                                key: UniqueKey(),
                                 effects: [
                                   if (!stateData.validationFailed!)
                                     if (data["in_group"] == "no" ||
@@ -557,18 +585,19 @@ class DataEntryView extends StatelessWidget {
                                         curve: Curves.decelerate,
                                         begin: Offset(0, 1),
                                       ),
-                                  if (stateData.validationFailed!)
-                                    const ShakeEffect(
-                                      duration: Duration(milliseconds: 200),
-                                      curve: Curves.decelerate,
-                                    )
+                                  // if (stateData.validationFailed!)
+                                  //   const ShakeEffect(
+                                  //     duration: Duration(milliseconds: 200),
+                                  //     curve: Curves.decelerate,
+                                  //   ),
                                 ],
                                 child: Align(
                                   alignment: Alignment.center,
                                   child: CustomElevatedButton(
                                     text: "Submit",
                                     onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
+                                      if (_formKey.currentState!.validate() &&
+                                          stateData.consent!) {
                                         _dataEntryBloc.add(FormSubmittedEvent(
                                             stateData: stateData));
                                       } else {
@@ -578,7 +607,11 @@ class DataEntryView extends StatelessWidget {
                                       }
                                     },
                                   ),
-                                ),
+                                ).animate().shake(
+                                      duration: Duration(
+                                          milliseconds:
+                                          !stateData.consent! ? 200 : 0),
+                                    ),
                               ),
                               const SizedBox(
                                 height: 20.0,

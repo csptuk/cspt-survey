@@ -49,6 +49,16 @@ class CheckboxSelectedEvent extends DataEntryEvent {
   final DataEntryStateDataModel stateData;
 }
 
+class ConsentCheckboxSelectedEvent extends DataEntryEvent {
+  const ConsentCheckboxSelectedEvent({
+    required this.value,
+    required this.stateData,
+  });
+
+  final bool? value;
+  final DataEntryStateDataModel stateData;
+}
+
 class ValidationFailedEvent extends DataEntryEvent {
   const ValidationFailedEvent({
     required this.stateData,

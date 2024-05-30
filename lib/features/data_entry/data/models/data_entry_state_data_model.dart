@@ -5,6 +5,7 @@ class DataEntryStateDataModel extends DataEntryStateDataEntity {
   const DataEntryStateDataModel({
     super.data,
     super.validators,
+    super.consent,
     super.validationFailed,
     super.submitted,
   });
@@ -12,6 +13,7 @@ class DataEntryStateDataModel extends DataEntryStateDataEntity {
   factory DataEntryStateDataModel.fromJson(Map<String, dynamic> json) {
     return DataEntryStateDataModel(
       data: json["data"],
+      consent: json["consent"],
       validationFailed: json["validation_failed"],
       submitted: json["submitted"],
     );
@@ -20,6 +22,7 @@ class DataEntryStateDataModel extends DataEntryStateDataEntity {
   Map<String, dynamic> toJson() {
     return {
       "data": data,
+      "consent": consent,
       "validation_failed": validationFailed,
       "submitted": submitted,
     };
@@ -29,12 +32,14 @@ class DataEntryStateDataModel extends DataEntryStateDataEntity {
     bool? visualizeData,
     Map<String, dynamic>? data,
     ValidatorsModel? validators,
+    bool? consent,
     bool? validationFailed,
     bool? submitted,
   }) {
     return DataEntryStateDataModel(
       data: data ?? this.data,
       validators: validators ?? this.validators,
+      consent: consent ?? this.consent,
       validationFailed: validationFailed ?? this.validationFailed,
       submitted: submitted ?? this.submitted,
     );
@@ -42,6 +47,6 @@ class DataEntryStateDataModel extends DataEntryStateDataEntity {
 
   @override
   String toString() {
-    return "data: $data, validationFailed: $validationFailed, submitted: $submitted";
+    return "data: $data, consent: $consent, validationFailed: $validationFailed, submitted: $submitted";
   }
 }

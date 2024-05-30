@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   cloud_firestore
   connectivity_plus
+  downloadsfolder
   firebase_core
   permission_handler_windows
 )

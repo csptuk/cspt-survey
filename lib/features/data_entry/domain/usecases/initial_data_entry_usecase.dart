@@ -82,6 +82,7 @@ class InitialDataEntryUseCase extends UseCase {
           }
         },
       ),
+      consent: false,
       validationFailed: false,
       submitted: false,
     );

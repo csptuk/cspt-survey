@@ -9,9 +9,9 @@ import 'package:csspt_app/features/data_visualize/domain/repositories/data_visua
 import 'package:csspt_app/helper/string_casting_extension.dart';
 import 'package:csspt_app/injection_container.dart';
 import 'package:csspt_app/local_hive.dart';
+import 'package:downloadsfolder/downloadsfolder.dart';
 import 'package:excel/excel.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
@@ -218,24 +218,17 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
 
     await Permission.storage.request();
 
-    final directory = await getExternalStorageDirectory();
+    final directory = await getDownloadDirectory();
 
     String fileName =
         "CSPT-Survey-${isCloud ? "cloud" : "local"}-${DateFormat("yyyy-MM-dd").format(DateTime.now())}.xlsx";
 
-    String path = "${directory!.path}/$fileName";
-    // String path = "/storage/emulated/0/Downloads/$fileName";
+    String path = "${directory.path}/$fileName";
 
     List<int> excelFileBytes = excel.save(fileName: fileName)!;
 
     File(path)
       ..createSync(recursive: true)
       ..writeAsBytesSync(excelFileBytes);
-
-    // await copyFileIntoDownloadFolder(path, fileName);
-
-    // await Share.shareXFiles([XFile(path)], text: 'Exported File');
-
-    // OpenFile.open(path);
   }
 }

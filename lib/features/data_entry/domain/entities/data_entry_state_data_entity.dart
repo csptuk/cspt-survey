@@ -5,12 +5,14 @@ class DataEntryStateDataEntity extends Equatable {
   const DataEntryStateDataEntity({
     this.data,
     this.validators,
+    this.consent,
     this.validationFailed,
     this.submitted,
   });
 
   final Map<String, dynamic>? data;
   final ValidatorsModel? validators;
+  final bool? consent;
   final bool? validationFailed;
   final bool? submitted;
 

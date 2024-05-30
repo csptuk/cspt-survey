@@ -1,6 +1,7 @@
 import 'package:csspt_app/features/data_entry/data/repositories/data_entry_repository_implementation.dart';
 import 'package:csspt_app/features/data_entry/domain/repositories/data_entry_repository.dart';
 import 'package:csspt_app/features/data_entry/domain/usecases/checkbox_selected_usecase.dart';
+import 'package:csspt_app/features/data_entry/domain/usecases/consent_checkbox_selected_usecase.dart';
 import 'package:csspt_app/features/data_entry/domain/usecases/form_submitted_usecase.dart';
 import 'package:csspt_app/features/data_entry/domain/usecases/initial_data_entry_usecase.dart';
 import 'package:csspt_app/features/data_entry/domain/usecases/radio_button_toggled_usecase.dart';
@@ -37,12 +38,14 @@ Future<void> initializeDependencies() async {
       () => RadioButtonToggledUseCase());
   sl.registerLazySingleton<CheckboxSelectedUseCase>(
       () => CheckboxSelectedUseCase());
+  sl.registerLazySingleton<ConsentCheckboxSelectedUseCase>(
+      () => ConsentCheckboxSelectedUseCase());
   sl.registerLazySingleton<ValidationFailedUseCase>(
       () => ValidationFailedUseCase());
   sl.registerLazySingleton<FormSubmittedUseCase>(
       () => FormSubmittedUseCase(sl()));
   sl.registerFactory<DataEntryBloc>(
-      () => DataEntryBloc(sl(), sl(), sl(), sl(), sl(), sl()));
+      () => DataEntryBloc(sl(), sl(), sl(), sl(), sl(), sl(), sl()));
 
   // Data Visualize
   sl.registerLazySingleton<DataVisualizeRepository>(
