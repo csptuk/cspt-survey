@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:csspt_app/features/data_entry/data/models/data_entry_state_data_model.dart';
 import 'package:csspt_app/features/data_entry/domain/usecases/checkbox_selected_usecase.dart';
-import 'package:csspt_app/features/data_entry/domain/usecases/consent_checkbox_selected_usecase.dart';
 import 'package:csspt_app/features/data_entry/domain/usecases/form_submitted_usecase.dart';
 import 'package:csspt_app/features/data_entry/domain/usecases/initial_data_entry_usecase.dart';
 import 'package:csspt_app/features/data_entry/domain/usecases/radio_button_toggled_usecase.dart';
@@ -20,7 +19,6 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
   final TextFieldFocusChangeUseCase? _textFieldFocusChangeUseCase;
   final RadioButtonToggledUseCase? _radioButtonToggledUseCase;
   final CheckboxSelectedUseCase? _checkboxSelectedUseCase;
-  final ConsentCheckboxSelectedUseCase? _consentCheckboxSelectedUseCase;
   final ValidationFailedUseCase? _validationFailedUseCase;
   final FormSubmittedUseCase? _formSubmittedUseCase;
 
@@ -29,7 +27,6 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
     this._textFieldFocusChangeUseCase,
     this._radioButtonToggledUseCase,
     this._checkboxSelectedUseCase,
-    this._consentCheckboxSelectedUseCase,
     this._validationFailedUseCase,
     this._formSubmittedUseCase,
   ) : super(DataEntryLoadingState()) {
@@ -38,7 +35,6 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
     on<TextFieldFocusChangeEvent>(textFieldFocusChangeEvent);
     on<RadioButtonToggledEvent>(radioButtonToggledEvent);
     on<CheckboxSelectedEvent>(checkboxSelectedEvent);
-    on<ConsentCheckboxSelectedEvent>(consentCheckboxSelectedEvent);
     on<ValidationFailedEvent>(validationFailedEvent);
     on<FormSubmittedEvent>(formSubmittedEvent);
     on<ResetFormEvent>(resetFormEvent);
@@ -78,15 +74,6 @@ class DataEntryBloc extends Bloc<DataEntryEvent, DataEntryState> {
     emit(DataEntryLoadedState(
         stateData: await _checkboxSelectedUseCase!(params: {
       "key": event.key,
-      "value": event.value,
-      "state_data": event.stateData,
-    })));
-  }
-
-  FutureOr<void> consentCheckboxSelectedEvent(
-      ConsentCheckboxSelectedEvent event, Emitter<DataEntryState> emit) async {
-    emit(DataEntryLoadedState(
-        stateData: await _consentCheckboxSelectedUseCase!(params: {
       "value": event.value,
       "state_data": event.stateData,
     })));

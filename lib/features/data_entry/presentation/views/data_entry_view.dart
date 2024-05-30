@@ -381,10 +381,10 @@ class DataEntryView extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Row(
+                                      Wrap(
                                         children: [
                                           Text(
-                                            "Do you consent for taking photos & publishing on social media ?",
+                                            "Do you consent to having your photos taken & published on social media ?",
                                             style: kLabelTextStyle,
                                           ),
                                         ],
@@ -548,16 +548,13 @@ class DataEntryView extends StatelessWidget {
                                     ),
                                 ],
                                 child: CustomContainer(
-                                  child: CustomCheckboxListTile(
-                                    title:
-                                        "We need your consent to collect and process your data in accordance with our Temple Privacy Policy and Terms of Service.",
-                                    value: stateData.consent!,
-                                    onChanged: (value) {
-                                      _dataEntryBloc.add(
-                                          ConsentCheckboxSelectedEvent(
-                                              value: value,
-                                              stateData: stateData));
-                                    },
+                                  child: Wrap(
+                                    children: [
+                                      Text(
+                                        "You accept our temple terms and conditions and privacy policy by submitting below.",
+                                        style: kLabelTextStyle,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -565,10 +562,7 @@ class DataEntryView extends StatelessWidget {
                                 height: 20.0,
                               ),
                               Animate(
-                                // key: !stateData.validationFailed!
-                                //     ? const Key("0")
-                                //     : UniqueKey(),
-                                key: UniqueKey(),
+                                // key: UniqueKey(),
                                 effects: [
                                   if (!stateData.validationFailed!)
                                     if (data["in_group"] == "no" ||
@@ -585,19 +579,18 @@ class DataEntryView extends StatelessWidget {
                                         curve: Curves.decelerate,
                                         begin: Offset(0, 1),
                                       ),
-                                  // if (stateData.validationFailed!)
-                                  //   const ShakeEffect(
-                                  //     duration: Duration(milliseconds: 200),
-                                  //     curve: Curves.decelerate,
-                                  //   ),
+                                  if (stateData.validationFailed!)
+                                    const ShakeEffect(
+                                      duration: Duration(milliseconds: 200),
+                                      curve: Curves.decelerate,
+                                    ),
                                 ],
                                 child: Align(
                                   alignment: Alignment.center,
                                   child: CustomElevatedButton(
                                     text: "Submit",
                                     onPressed: () {
-                                      if (_formKey.currentState!.validate() &&
-                                          stateData.consent!) {
+                                      if (_formKey.currentState!.validate()) {
                                         _dataEntryBloc.add(FormSubmittedEvent(
                                             stateData: stateData));
                                       } else {
@@ -607,11 +600,7 @@ class DataEntryView extends StatelessWidget {
                                       }
                                     },
                                   ),
-                                ).animate().shake(
-                                      duration: Duration(
-                                          milliseconds:
-                                          !stateData.consent! ? 200 : 0),
-                                    ),
+                                ),
                               ),
                               const SizedBox(
                                 height: 20.0,
@@ -645,7 +634,7 @@ class DataEntryView extends StatelessWidget {
                             Align(
                               alignment: Alignment.center,
                               child: CustomElevatedButton(
-                                text: "Click to Check-in",
+                                text: "Click for New Check-in",
                                 onPressed: () {
                                   _dataEntryBloc.add(ResetFormEvent());
                                 },
