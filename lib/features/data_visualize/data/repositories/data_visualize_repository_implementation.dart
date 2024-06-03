@@ -131,6 +131,8 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
         .toList()
         .cast<Map<String, dynamic>>();
 
+    cloudData.sort((a, b) => a["date"].compareTo(b["date"]));
+
     await _exportToExcel(
       data: cloudData,
       isCloud: true,
@@ -200,7 +202,13 @@ class DataVisualizeRepositoryImplementation implements DataVisualizeRepository {
         for (var field in columns) {
           var cell = sheetObject.cell(
               CellIndex.indexByColumnRow(columnIndex: column, rowIndex: row));
-          if (int.tryParse(field.value!) == null) {
+          if (field.value == "date") {
+            cell.value = TextCellValue(
+                (data[row - 1][field.value].runtimeType == Timestamp
+                        ? data[row - 1][field.value].toDate()
+                        : DateTime.parse(data[row - 1][field.value].toString()))
+                    .toString());
+          } else if (int.tryParse(field.value!) == null) {
             cell.value = TextCellValue(field.value != "id"
                 ? data[row - 1][field.value].toString().toTitleCase()
                 : data[row - 1][field.value].toString());
